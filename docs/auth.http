@@ -1,0 +1,12 @@
+# Authentication API
+# Username and password are required to get a JWT token
+# The token is required to access the other APIs
+# Username are generated at the start of the application
+POST /api/v1/auth/login HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+
+{
+    "username": "franklyn.yost@example.com",
+    "password": "password"
+}

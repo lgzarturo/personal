@@ -1,0 +1,97 @@
+# Logging and Debug Configuration
+spring.config.import: optional:secrets.properties
+debug: false
+logging:
+  file:
+    name: logs/staging.log
+  level:
+    root: INFO
+    web: INFO
+    com.lgzarturo.api.personal: DEBUG
+# Server Configuration
+server:
+  mvc:
+    async:
+      request-timeout: 120000ms
+  tomcat:
+    keep-alive-timeout: 120000ms
+  compression:
+    enabled: true
+    mime-types:
+      - application/json
+  error:
+    include-message: ALWAYS
+    include-binding-errors: ALWAYS
+    include-exception: false
+    include-stacktrace: NEVER
+# Spring Configuration
+spring:
+  devtools:
+    add-properties: false
+  main:
+    banner-mode: OFF
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        session:
+          events:
+            log:
+              LOG_QUERIES_SLOWER_THAN_MS: 10
+        query:
+          in_clause_parameter_padding: true
+          plan_cache_max_size: 1
+        order_updates: true
+        jdbc:
+          batch_size: 30
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+  data:
+    web:
+      pageable:
+        default-page-size: 20
+  servlet:
+    multipart:
+      enabled: true
+      location: /tmp
+      max-file-size: 10MB
+      max-request-size: 10MB
+  codec:
+    max-in-memory-size: 10MB
+  h2:
+    console:
+      enabled: false
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"
+# API Application Configuration
+api:
+  service:
+    configuration:
+      debug: false
+  path:
+    files: /Users/revenatium/dev/lgzarturo/data/
+    uri: /static/images/
+  security:
+    jwt:
+      secret: 25442A472D4B6150645367556B58703273357638792F423F4528482B4D625165
+      issuer: personal-api
+      expiration: 87_000
+  token-secret: bPeShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "*"
+    allow-credentials: true

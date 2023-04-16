@@ -1,0 +1,5 @@
+POSTGRES_CONTAINER_NAME=[container_name]
+POSTGRES_USER=[user]
+POSTGRES_PASSWORD=[password]
+POSTGRES_DB=[database]
+PGDATA=[path_to_pgdata]
