@@ -1,18 +1,14 @@
 package com.lgzarturo.api.personal.config;
 
-import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
-import com.lgzarturo.api.personal.api.user.Role;
 import com.lgzarturo.api.personal.api.user.User;
 import com.lgzarturo.api.personal.api.user.UserService;
+import com.lgzarturo.api.personal.utils.Helpers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @Profile("development")
@@ -38,18 +34,10 @@ public class BootstrapDatabase implements ApplicationRunner {
         PasswordEncoder passwordEncoder
     ) {
         log.info("Creating random user");
-        var faker = new Faker();
-        Name name = faker.name();
-        String firstName = name.firstName();
-        String lastName = name.lastName();
-        String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@example.com";
         String password = passwordEncoder.encode("password");
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setActive(true);
-        user.setRole(List.of(Role.ROLE_ADMIN));
+        User user = Helpers.getRandomUser(password);
         userService.create(user);
-        log.info("Created user: {}", email);
+        assert user.getId() != null;
+        log.info("Created user: {}", user.getEmail());
     }
 }
