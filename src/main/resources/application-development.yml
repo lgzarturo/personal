@@ -85,6 +85,9 @@ spring:
     max-in-memory-size: 10MB
 # Actuator Configuration
 management:
+  endpoint:
+    health:
+      show-details: always
   endpoints:
     web:
       exposure:
