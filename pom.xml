@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.lgzarturo.api</groupId>
 	<artifactId>personal</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>personal</name>
 	<description>RestAPI with SpringBoot 3, examples, practices and backend service for my professional profile</description>
 	<properties>
