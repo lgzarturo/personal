@@ -9,8 +9,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -63,5 +65,26 @@ class UserServiceTest {
         // Then
         Optional<User> persistedUser = userService.getUserByEmail(user.getEmail());
         assertTrue(persistedUser.isPresent());
+    }
+
+    @Test
+    void itShouldGetAllUsers() {
+        // Given
+        userRepository.saveAll(Helpers.getRandomUsers(10, passwordEncoder.encode("password")));
+        // When
+        List<User> users = userService.getAllUsers();
+        // Then
+        assertEquals(10, users.size());
+    }
+
+    @Test
+    void itShouldGetUserById() {
+        // Given
+        User user = Helpers.getRandomUser(passwordEncoder.encode("password"));
+        User persistedUser = userRepository.save(user);
+        // When
+        Optional<User> foundUser = userService.getUserById(persistedUser.getId());
+        // Then
+        assertTrue(foundUser.isPresent());
     }
 }

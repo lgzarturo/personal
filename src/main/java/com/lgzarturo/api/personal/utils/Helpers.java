@@ -6,6 +6,7 @@ import com.lgzarturo.api.personal.api.user.Role;
 import com.lgzarturo.api.personal.api.user.User;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Helpers {
 
@@ -24,5 +25,9 @@ public class Helpers {
         user.setActive(true);
         user.setRole(List.of(Role.ROLE_ADMIN));
         return user;
+    }
+
+    public static List<User> getRandomUsers(int count, String encodedPassword) {
+        return Stream.of(new User[count]).map(user -> getRandomUser(encodedPassword)).toList();
     }
 }
