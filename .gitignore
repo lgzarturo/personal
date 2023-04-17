@@ -33,6 +33,7 @@ build/
 .vscode/
 *.log
 *.gz
+*.tmp
 secrets.properties
 .env
 docs.md
