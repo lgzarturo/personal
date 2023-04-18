@@ -15,6 +15,15 @@ At this moment, the API has the following endpoints:
 
 > **Objective**: Practicing the skills that I've learned about Spring Boot 3 and REST API for Portfolio Project.
 
+## Methodology
+
+- Test Driven Development (TDD)
+- Clean Architecture (Hexagonal Architecture)
+- Domain Driven Design (DDD)
+- SOLID Principles
+- Design Patterns
+- Clean Code
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
