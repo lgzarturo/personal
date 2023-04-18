@@ -19,8 +19,21 @@ public class Helpers {
     }
 
     public static User getRandomUser(String encodedPassword) {
+        return getRandomUserWithRoles(encodedPassword, List.of(Role.ROLE_USER));
+    }
+
+    public static User getRandomUserWithRoles(String encodedPassword, List<Role> roles) {
         User user = new User();
         user.setEmail(generateEmail());
+        user.setPassword(encodedPassword);
+        user.setActive(true);
+        user.setRole(roles);
+        return user;
+    }
+
+    public static User getAdminUser(String email, String encodedPassword) {
+        User user = new User();
+        user.setEmail(email);
         user.setPassword(encodedPassword);
         user.setActive(true);
         user.setRole(List.of(Role.ROLE_ADMIN));
