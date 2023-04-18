@@ -53,22 +53,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            var userDetails = userDetailsService.loadUserByUsername(username);
-            if (!jwtGenerator.isTokenValid(token, userDetails.getUsername())) {
-                log.debug("JWT token is not valid");
-                filterChain.doFilter(request, response);
-                return;
-            }
-            log.debug("Authenticated user {}, setting security context", username);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                null,
-                userDetails.getAuthorities()
-            );
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            log.debug("Security context already contains authentication");
+            filterChain.doFilter(request, response);
+            return;
         }
+
+        var userDetails = userDetailsService.loadUserByUsername(username);
+        if (!jwtGenerator.isTokenValid(token, userDetails.getUsername())) {
+            log.debug("JWT token is not valid");
+            SecurityContextHolder.clearContext();
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        log.debug("Authenticated user {}, setting security context", username);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+            userDetails,
+            null,
+            userDetails.getAuthorities()
+        );
+        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);
     }
 }

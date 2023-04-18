@@ -4,5 +4,5 @@ import java.util.List;
 
 public record UserResponse(
     String username,
-    List<String> role) {
+    List<String> roles) {
 }

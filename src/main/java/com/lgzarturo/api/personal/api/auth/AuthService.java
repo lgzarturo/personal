@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,8 +40,14 @@ public class AuthService {
         );
         User user = (User) authentication.getPrincipal();
         UserResponse userResponse = userResponseMapper.apply(user);
-        String token = jwtGenerator.issueToken(userResponse.username(), userResponse.role());
+        String token = jwtGenerator.issueToken(userResponse.username(), userResponse.roles());
         log.debug("Login response: {}", token);
         return new LoginResponse(token, userResponse);
+    }
+
+    public UserResponse getCurrentUser() {
+        log.debug("Get current user" );
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userResponseMapper.apply((User) authentication.getPrincipal());
     }
 }
