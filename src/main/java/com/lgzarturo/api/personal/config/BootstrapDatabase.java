@@ -76,6 +76,10 @@ public class BootstrapDatabase implements ApplicationRunner {
         AppConfigProperties appConfigProperties
     ) {
         log.info("Creating user administrator");
+        if (userService.existsUserByEmail(appConfigProperties.admin().username())) {
+            log.info("User administrator '{}' already exists", appConfigProperties.admin().username());
+            return;
+        }
         String password = passwordEncoder.encode(appConfigProperties.admin().password());
         User user = Helpers.getAdminUser(appConfigProperties.admin().username(), password);
         userService.create(user);
