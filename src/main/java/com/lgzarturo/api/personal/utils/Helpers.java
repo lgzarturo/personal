@@ -26,7 +26,7 @@ public class Helpers {
         User user = new User();
         user.setEmail(generateEmail());
         user.setPassword(encodedPassword);
-        user.setActive(true);
+        user.setIsActive(true);
         user.setRole(roles);
         return user;
     }
@@ -35,7 +35,7 @@ public class Helpers {
         User user = new User();
         user.setEmail(email);
         user.setPassword(encodedPassword);
-        user.setActive(true);
+        user.setIsActive(true);
         user.setRole(List.of(Role.ROLE_ADMIN));
         return user;
     }

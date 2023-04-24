@@ -1,4 +1,4 @@
-package com.lgzarturo.api.personal.client.jsonplaceholder;
+package com.lgzarturo.api.personal.infrastructure.client.jsonplaceholder;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +10,7 @@ import java.util.List;
     value = "jsonplaceholder",
     url = "https://jsonplaceholder.typicode.com"
 )
-public interface PlaceHolderClient {
+public interface JsonPlaceholderClient {
     @GetMapping("/posts")
     List<Post> getPosts();
     @GetMapping("/posts/{postId}")

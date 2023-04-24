@@ -3,7 +3,7 @@ package com.lgzarturo.api.personal.api.auth;
 import com.jayway.jsonpath.JsonPath;
 import com.lgzarturo.api.personal.api.user.User;
 import com.lgzarturo.api.personal.api.user.UserService;
-import com.lgzarturo.api.personal.config.Constants;
+import com.lgzarturo.api.personal.utils.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package com.lgzarturo.api.personal.security.jwt;
+package com.lgzarturo.api.personal.infrastructure.security.jwt;
 
 import com.lgzarturo.api.personal.api.auth.AuthUserDetailsService;
-import com.lgzarturo.api.personal.config.Constants;
+import com.lgzarturo.api.personal.utils.Constants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

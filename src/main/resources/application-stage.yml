@@ -35,6 +35,9 @@ spring:
       enabled: ALWAYS
   datasource:
     driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
   jpa:
     generate-ddl: true
     hibernate:

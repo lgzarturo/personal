@@ -5,7 +5,7 @@ import com.lgzarturo.api.personal.api.auth.dto.LoginResponse;
 import com.lgzarturo.api.personal.api.user.User;
 import com.lgzarturo.api.personal.api.user.dto.UserResponse;
 import com.lgzarturo.api.personal.api.user.mapper.UserResponseMapper;
-import com.lgzarturo.api.personal.security.jwt.JwtGenerator;
+import com.lgzarturo.api.personal.infrastructure.security.jwt.JwtGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -89,4 +89,17 @@ class UserServiceTest {
         // Then
         assertTrue(foundUser.isPresent());
     }
+
+    @Test
+    void itShouldCreateAdminUser() {
+        // Given
+        String username = "lgzarturo@gmail.com";
+        User user = Helpers.getAdminUser(username, passwordEncoder.encode("password"));
+        // When
+        userService.create(user);
+        // Then
+        Optional<User> persistedUser = userService.getUserByEmail(username);
+        assertTrue(persistedUser.isPresent());
+        assertEquals(List.of(Role.ROLE_ADMIN), persistedUser.get().getRole());
+    }
 }

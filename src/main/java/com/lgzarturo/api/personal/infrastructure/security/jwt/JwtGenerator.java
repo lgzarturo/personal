@@ -1,4 +1,4 @@
-package com.lgzarturo.api.personal.security.jwt;
+package com.lgzarturo.api.personal.infrastructure.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

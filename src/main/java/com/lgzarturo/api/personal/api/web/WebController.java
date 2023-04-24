@@ -1,7 +1,7 @@
 package com.lgzarturo.api.personal.api.web;
 
-import com.lgzarturo.api.personal.client.jsonplaceholder.PlaceHolderClient;
-import com.lgzarturo.api.personal.client.jsonplaceholder.Post;
+import com.lgzarturo.api.personal.infrastructure.client.jsonplaceholder.JsonPlaceholderClient;
+import com.lgzarturo.api.personal.infrastructure.client.jsonplaceholder.Post;
 import com.lgzarturo.api.personal.config.AppConfigProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +19,14 @@ import java.util.List;
 public class WebController {
 
     private final AppConfigProperties appConfigProperties;
-    private final PlaceHolderClient placeHolderClient;
+    private final JsonPlaceholderClient jsonPlaceholderClient;
 
     public WebController(
         AppConfigProperties appConfigProperties,
-        PlaceHolderClient placeHolderClient
+        JsonPlaceholderClient jsonPlaceholderClient
     ) {
         this.appConfigProperties = appConfigProperties;
-        this.placeHolderClient = placeHolderClient;
+        this.jsonPlaceholderClient = jsonPlaceholderClient;
     }
 
     private static int counter = 0;
@@ -56,11 +56,11 @@ public class WebController {
 
     @GetMapping("/posts")
     public ResponseEntity<List<Post>> getPosts() {
-        return ResponseEntity.ok(placeHolderClient.getPosts());
+        return ResponseEntity.ok(jsonPlaceholderClient.getPosts());
     }
 
     @GetMapping("/posts/{postId}")
     public ResponseEntity<Post> getPostById(@PathVariable("postId") int postId) {
-        return ResponseEntity.ok(placeHolderClient.getPostById(postId));
+        return ResponseEntity.ok(jsonPlaceholderClient.getPostById(postId));
     }
 }

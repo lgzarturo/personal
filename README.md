@@ -24,6 +24,131 @@ At this moment, the API has the following endpoints:
 - Design Patterns
 - Clean Code
 
+## Project Structure
+
+The project is structured in the following way:
+```
+├── com.lgzarturo.api.personal
+│   │   # API layer (REST controllers)
+│   ├── api
+│   │   ├── auth
+│   │   │   ├── dto
+│   │   │   │   ├── LoginRequest.java
+│   │   │   │   └── LoginResponse.java
+│   │   │   ├── AuthController.java
+│   │   │   └── AuthService.java
+│   │   ├── user
+│   │   │   ├── dto
+│   │   │   │   ├── CreateUserRequest.java
+│   │   │   │   ├── CreateUserResponse.java
+│   │   │   │   ├── GetUserResponse.java
+│   │   │   │   ├── UpdateUserRequest.java
+│   │   │   │   └── UpdateUserResponse.java
+│   │   │   ├── mapper
+│   │   │   │   └── UserMapper.java
+│   │   │   ├── UserController.java
+│   │   │   └── UserService.java
+│   │   └── web
+│   │       ├── PingController.java
+│   │       └── PingService.java
+│   │   # Configuration layer (Spring configuration)
+│   ├── config
+│   │   ├── AdminUser.java
+│   │   ├── AppConfigProperties.java
+│   │   └── Bootstrap.java
+│   │   # Exception layer (Custom exceptions) 
+│   ├── exceptions                          
+│   │   ├── ApiError.java
+│   │   ├── AuthExceptionHandler.java
+│   │   ├── ExceptionHandlerAdvice.java
+│   │   ├── ResourceDuplicatedException.java                    # 409 - Conflict
+│   │   ├── ResourceNotFoundException.java                      # 404 - Not Found
+│   │   └── ResourceValidationException.java                    # 400 - Bad Request
+│   │   # Infrastructure layer (Database, external services, etc.)
+│   ├── infrastructure
+│   │   │   # Client layer (External services) REST clients
+│   │   ├── client
+│   │   │   └── jsonplaceholder
+│   │   │       ├── JsonPlaceholderClient.java
+│   │   │       └── Post.java
+│   │   │   # Security layer (Authentication, authorization, etc.)
+│   │   ├── security
+│   │   │   ├── jwt
+│   │   │   │   ├── JwtAuthenticationFilter.java
+│   │   │   │   └── JwtGenerator.java
+│   │   │   ├── CorsFilter.java
+│   │   │   ├── SecurityChainFilter.java
+│   │   │   └── SecurityConfig.java
+│   │   │   # Storage layer (Database, file system, etc.)
+│   │   └── storage
+│   │       └── s3
+│   │   # Shared layer (Utilities, helpers functions, constants, etc.)
+│   ├── utils
+│   │   ├── Helpers.java
+│   │   └── Constants.java
+```
+
+
+```
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── lgzarturo
+│   │   │           └── api
+│   │   │               └── personal
+│   │   │                   ├── PersonalApplication.java
+│   │   │                   ├── config
+│   │   │                   │   ├── ApplicationProperties.java
+│   │   │                   │   ├── CorsConfig.java
+│   │   │                   │   ├── DatabaseConfig.java
+│   │   │                   │   ├── SecurityConfig.java
+│   │   │                   │   └── SwaggerConfig.java
+│   │   │                   ├── controller
+│   │   │                   │   ├── AuthController.java
+│   │   │                   │   └── PingController.java
+│   │   │                   ├── domain
+│   │   │                   │   ├── model
+│   │   │                   │   │   ├── Role.java
+│   │   │                   │   │   └── User.java
+│   │   │                   │   └── repository
+│   │   │                   │       └── UserRepository.java
+│   │   │                   ├── exception
+│   │   │                   │   ├── ApiError.java
+│   │   │                   │   ├── ApiSubError.java
+│   │   │                   │   ├── BadRequestException.java
+│   │   │                   │   ├── EntityNotFoundException.java
+│   │   │                   │   ├── ErrorConstants.java
+│   │   │                   │   ├── ErrorResource.java
+│   │   │                   │   ├── FieldErrorResource.java
+│   │   │                   │   ├── GlobalExceptionHandler.java
+│   │   │                   │   ├── MethodArgumentNotValidException.java
+│   │   │                   │   ├── ResourceNotFoundException.java
+│   │   │                   │   └── ValidationErrorResource.java
+│   │   │                   ├── security
+│   │   │                   │   ├── JwtAuthenticationEntryPoint.java
+│   │   │                   │   ├── JwtAuthenticationFilter.java
+│   │   │                   │   ├── JwtTokenProvider.java
+│   │   │                   │   ├── JwtUser.java
+│   │   │                   │   ├── JwtUserFactory.java
+│   │   │                   │   ├── Role.java
+│   │   │                   │   └── User.java
+│   │   │                   ├── service
+│   │   │                   │   ├── AuthService.java
+│   │   │                   │   ├── JwtUserDetailsServiceImpl.java
+│   │   │                   │   └── PingService.java
+│   │   │                   └── util
+│   │   │                       └── Constants.java
+│   │   └── resources
+│   │       ├── application.properties
+│   │       ├── application.yml
+│   │       ├── db
+│   │       │   └── migration
+│   │       │       └── V1__init.sql
+│   │       ├── logback-spring.xml
+│   │       └── secrets.properties
+```
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.

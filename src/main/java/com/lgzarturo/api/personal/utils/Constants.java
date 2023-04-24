@@ -1,4 +1,4 @@
-package com.lgzarturo.api.personal.config;
+package com.lgzarturo.api.personal.utils;
 
 public class Constants {
     public final static String HEADER_AUTHENTICATION = "Authorization";

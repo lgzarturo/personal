@@ -1,4 +1,4 @@
-package com.lgzarturo.api.personal.security;
+package com.lgzarturo.api.personal.infrastructure.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @EnableWebMvc
-public class CorsConfig implements WebMvcConfigurer {
+public class CorsFilter implements WebMvcConfigurer {
 
     @Value("#{'${api.cors.allowed-origins}'.split(',')}")
     private List<String> allowedOrigins;

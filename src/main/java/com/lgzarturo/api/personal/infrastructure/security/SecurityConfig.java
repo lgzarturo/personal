@@ -1,4 +1,4 @@
-package com.lgzarturo.api.personal.security;
+package com.lgzarturo.api.personal.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

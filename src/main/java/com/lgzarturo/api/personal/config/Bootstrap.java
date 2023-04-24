@@ -16,14 +16,14 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class BootstrapDatabase implements ApplicationRunner {
+public class Bootstrap implements ApplicationRunner {
 
     private final AppConfigProperties appConfigProperties;
     private final Environment environment;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public BootstrapDatabase(
+    public Bootstrap(
         AppConfigProperties appConfigProperties,
         Environment environment,
         UserService userService,
