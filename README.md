@@ -88,67 +88,6 @@ The project is structured in the following way:
 │   │   └── Constants.java
 ```
 
-
-```
-├── src
-│   ├── main
-│   │   ├── java
-│   │   │   └── com
-│   │   │       └── lgzarturo
-│   │   │           └── api
-│   │   │               └── personal
-│   │   │                   ├── PersonalApplication.java
-│   │   │                   ├── config
-│   │   │                   │   ├── ApplicationProperties.java
-│   │   │                   │   ├── CorsConfig.java
-│   │   │                   │   ├── DatabaseConfig.java
-│   │   │                   │   ├── SecurityConfig.java
-│   │   │                   │   └── SwaggerConfig.java
-│   │   │                   ├── controller
-│   │   │                   │   ├── AuthController.java
-│   │   │                   │   └── PingController.java
-│   │   │                   ├── domain
-│   │   │                   │   ├── model
-│   │   │                   │   │   ├── Role.java
-│   │   │                   │   │   └── User.java
-│   │   │                   │   └── repository
-│   │   │                   │       └── UserRepository.java
-│   │   │                   ├── exception
-│   │   │                   │   ├── ApiError.java
-│   │   │                   │   ├── ApiSubError.java
-│   │   │                   │   ├── BadRequestException.java
-│   │   │                   │   ├── EntityNotFoundException.java
-│   │   │                   │   ├── ErrorConstants.java
-│   │   │                   │   ├── ErrorResource.java
-│   │   │                   │   ├── FieldErrorResource.java
-│   │   │                   │   ├── GlobalExceptionHandler.java
-│   │   │                   │   ├── MethodArgumentNotValidException.java
-│   │   │                   │   ├── ResourceNotFoundException.java
-│   │   │                   │   └── ValidationErrorResource.java
-│   │   │                   ├── security
-│   │   │                   │   ├── JwtAuthenticationEntryPoint.java
-│   │   │                   │   ├── JwtAuthenticationFilter.java
-│   │   │                   │   ├── JwtTokenProvider.java
-│   │   │                   │   ├── JwtUser.java
-│   │   │                   │   ├── JwtUserFactory.java
-│   │   │                   │   ├── Role.java
-│   │   │                   │   └── User.java
-│   │   │                   ├── service
-│   │   │                   │   ├── AuthService.java
-│   │   │                   │   ├── JwtUserDetailsServiceImpl.java
-│   │   │                   │   └── PingService.java
-│   │   │                   └── util
-│   │   │                       └── Constants.java
-│   │   └── resources
-│   │       ├── application.properties
-│   │       ├── application.yml
-│   │       ├── db
-│   │       │   └── migration
-│   │       │       └── V1__init.sql
-│   │       ├── logback-spring.xml
-│   │       └── secrets.properties
-```
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
