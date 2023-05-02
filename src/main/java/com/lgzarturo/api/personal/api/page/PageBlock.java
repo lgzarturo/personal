@@ -1,7 +1,6 @@
 package com.lgzarturo.api.personal.api.page;
 
 import com.lgzarturo.api.personal.api.content.block.ContentBlock;
-import com.lgzarturo.api.personal.api.content.seo.Seo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

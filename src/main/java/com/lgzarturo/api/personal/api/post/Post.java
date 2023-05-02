@@ -1,7 +1,6 @@
 package com.lgzarturo.api.personal.api.post;
 
 import com.lgzarturo.api.personal.api.comment.Comment;
-import com.lgzarturo.api.personal.api.page.PageTag;
 import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
 import lombok.*;

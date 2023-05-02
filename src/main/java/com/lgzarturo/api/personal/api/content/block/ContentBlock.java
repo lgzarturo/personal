@@ -1,7 +1,5 @@
 package com.lgzarturo.api.personal.api.content.block;
 
-import com.lgzarturo.api.personal.api.page.Page;
-import com.lgzarturo.api.personal.api.post.Post;
 import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +7,6 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name="content_blocks")
