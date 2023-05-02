@@ -2,12 +2,10 @@ package com.lgzarturo.api.personal.api.flight;
 
 import com.lgzarturo.api.personal.api.ticket.Ticket;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name="flights")
@@ -32,5 +30,5 @@ public class Flight {
     @Enumerated(EnumType.STRING)
     private Airline airline;
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Ticket> tickets;
+    private Set<Ticket> tickets = new HashSet<>();
 }

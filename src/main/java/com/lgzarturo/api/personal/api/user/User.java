@@ -1,5 +1,9 @@
 package com.lgzarturo.api.personal.api.user;
 
+import com.lgzarturo.api.personal.api.page.Page;
+import com.lgzarturo.api.personal.api.post.Post;
+import com.lgzarturo.api.personal.api.profile.Profile;
+import com.lgzarturo.api.personal.api.tour.Tour;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +14,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(
@@ -46,6 +52,12 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> role;
     private Boolean isActive;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Profile> profiles;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Page> pages = new HashSet<>();
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Post> posts = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
