@@ -23,21 +23,21 @@ public class Helpers {
     }
 
     public static User getRandomUserWithRoles(String encodedPassword, List<Role> roles) {
-        User user = new User();
-        user.setEmail(generateEmail());
-        user.setPassword(encodedPassword);
-        user.setIsActive(true);
-        user.setRole(roles);
-        return user;
+        return User.builder()
+            .email(generateEmail())
+            .password(encodedPassword)
+            .isActive(true)
+            .role(roles)
+            .build();
     }
 
     public static User getAdminUser(String email, String encodedPassword) {
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(encodedPassword);
-        user.setIsActive(true);
-        user.setRole(List.of(Role.ROLE_ADMIN));
-        return user;
+        return User.builder()
+            .email(email)
+            .password(encodedPassword)
+            .isActive(true)
+            .role(List.of(Role.ROLE_ADMIN))
+            .build();
     }
 
     public static List<User> getRandomUsers(int count, String encodedPassword) {
