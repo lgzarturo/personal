@@ -17,6 +17,7 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 40, unique = true)
     private String flightNumber;
     private Double originLatitude;
     private Double originLongitude;
