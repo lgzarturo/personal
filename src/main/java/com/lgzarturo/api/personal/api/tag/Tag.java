@@ -23,8 +23,12 @@ public class Tag extends AbstractPersistable<Long> {
     private String name;
     @Column(length = 160)
     private String description;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PageTag> pages = new HashSet<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PostTag> posts = new HashSet<>();
 }

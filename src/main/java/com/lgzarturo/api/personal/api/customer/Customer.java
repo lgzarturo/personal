@@ -40,10 +40,16 @@ public class Customer extends AbstractAuditable<User, UUID> {
     private Integer totalLodgings = 0;
     private Integer totalTickets = 0;
     private Integer totalTours = 0;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Ticket> tickets = new HashSet<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Reservation> reservations = new HashSet<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Tour> tours = new HashSet<>();
 }

@@ -29,6 +29,8 @@ public class Page extends AbstractAuditable<User, UUID> {
     private Boolean onFooter;
     private Boolean onSidebar;
     private Integer position;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PageTag> tags = new HashSet<>();
     @ManyToOne

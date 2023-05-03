@@ -3,10 +3,7 @@ package com.lgzarturo.api.personal.api.hotel;
 import com.lgzarturo.api.personal.api.address.Address;
 import com.lgzarturo.api.personal.api.reservation.Reservation;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -29,6 +26,8 @@ public class Hotel {
     private Integer rating;
     private BigDecimal minimumPrice;
     private BigDecimal maximumPrice;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Reservation> reservations = new HashSet<>();
 }

@@ -29,6 +29,8 @@ public class Flight {
     @Column(length = 40)
     @Enumerated(EnumType.STRING)
     private Airline airline;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Ticket> tickets = new HashSet<>();
 }

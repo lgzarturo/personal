@@ -66,8 +66,12 @@ public class Profile extends AbstractAuditable<User, UUID> {
     @Column(name="value")
     @CollectionTable(name="profile_social_networks", joinColumns=@JoinColumn(name="profile_id"))
     private Map<SocialNetwork, String> socialNetworks = new HashMap<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Experience> experiences = new HashSet<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Candidate> candidates = new HashSet<>();
     @ManyToOne

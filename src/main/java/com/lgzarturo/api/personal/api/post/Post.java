@@ -21,8 +21,12 @@ public class Post extends AbstractAuditable<User, UUID> {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String content;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PostTag> tags = new HashSet<>();
     @ManyToOne

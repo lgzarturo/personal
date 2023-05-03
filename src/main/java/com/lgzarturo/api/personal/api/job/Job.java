@@ -33,6 +33,8 @@ public class Job extends AbstractAuditable<User, UUID> {
     private JobType type;
     private LocalDate publishedDate;
     private LocalDate validUntilDate;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Candidate> candidates = new HashSet<>();
     @ElementCollection
