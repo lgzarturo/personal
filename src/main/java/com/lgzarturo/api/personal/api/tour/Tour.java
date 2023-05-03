@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name="tours")
@@ -25,12 +26,22 @@ public class Tour {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Reservation> reservations;
+    private Set<Reservation> reservations = new HashSet<>();
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Ticket> tickets;
+    private Set<Ticket> tickets = new HashSet<>();
     @ManyToOne
     @JoinColumn(name="customer_id")
     private Customer customer;
+
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+        reservation.setTour(this);
+    }
+
+    public void addTicket(Ticket ticket) {
+        tickets.add(ticket);
+        ticket.setTour(this);
+    }
 }

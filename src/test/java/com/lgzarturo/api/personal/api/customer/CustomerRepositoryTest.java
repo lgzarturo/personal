@@ -47,6 +47,8 @@ class CustomerRepositoryTest {
     private TicketRepository ticketRepository;
     @Autowired
     private TourRepository tourRepository;
+    private Hotel hotelPersisted;
+    private Tour tourPersisted;
 
     @BeforeEach
     void setUp() {
@@ -60,13 +62,13 @@ class CustomerRepositoryTest {
         hotel.setRating(5);
         hotel.setMinimumPrice(BigDecimal.valueOf(1000));
         hotel.setMaximumPrice(BigDecimal.valueOf(10000));
-        hotelRepository.save(hotel);
+        hotelPersisted = hotelRepository.save(hotel);
         Tour tour = new Tour();
         tour.setId(1L);
         tour.setName("Tour");
         tour.setDescription("Description");
         tour.setPrice(BigDecimal.valueOf(1000));
-        tourRepository.save(tour);
+        tourPersisted = tourRepository.save(tour);
     }
 
     @Test
@@ -91,14 +93,13 @@ class CustomerRepositoryTest {
     @Test
     void itShouldSaveCustomerWithAllFields() {
         // Given
-        Tour tour = tourRepository.findById(1L).orElseThrow();
         Ticket ticket = new Ticket();
         ticket.setId(UUID.randomUUID());
         ticket.setArrivalDate(LocalDate.now().plusDays(2));
         ticket.setDepartureDate(LocalDate.now().plusDays(10));
         ticket.setPurchaseDate(LocalDate.now());
         ticket.setPrice(BigDecimal.valueOf(1000));
-        ticket.setTour(tour);
+        ticket.setTour(tourPersisted);
 
         Reservation reservation = new Reservation();
         reservation.setId(UUID.randomUUID());
@@ -108,7 +109,7 @@ class CustomerRepositoryTest {
         reservation.setTotalPersons(2);
         reservation.setTotalNights(8);
         reservation.setTotalAmount(BigDecimal.valueOf(3000));
-        reservation.setHotel(hotelRepository.findById(1L).orElseThrow());
+        reservation.setHotel(hotelPersisted);
 
         Customer customer = Customer.builder()
             .fullName("Arturo")
@@ -121,7 +122,7 @@ class CustomerRepositoryTest {
             .totalTours(1)
             .tickets(Set.of(ticket))
             .reservations(Set.of(reservation))
-            .tours(Set.of(tour))
+            .tours(Set.of(tourPersisted))
             .build();
 
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -129,15 +130,19 @@ class CustomerRepositoryTest {
         // When
         Assertions.assertTrue(violations.isEmpty());
 
-        // FIXME: Corregir error de persistencia con las relaciones de Customer
         customerRepository.save(customer);
         ticket.setCustomer(customer);
+        ticket.setTour(tourPersisted);
         ticketRepository.save(ticket);
         reservation.setCustomer(customer);
-        reservation.setTour(tour);
+        reservation.setTour(tourPersisted);
         reservationRepository.save(reservation);
-        tour.setCustomer(customer);
-        tourRepository.save(tour);
+        tourPersisted.setCustomer(customer);
+        tourPersisted.addTicket(ticket);
+        tourPersisted.addReservation(reservation);
+        tourRepository.save(tourPersisted);
+        hotelPersisted.addReservation(reservation);
+        hotelRepository.save(hotelPersisted);
 
         UUID id = Objects.requireNonNull(customer.getId());
         Customer persistedCustomer = customerRepository.findById(id).orElseThrow();
