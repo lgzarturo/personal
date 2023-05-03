@@ -17,6 +17,7 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String flightNumber;
     private Double originLatitude;
     private Double originLongitude;
     private Double destinationLatitude;
@@ -33,4 +34,9 @@ public class Flight {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Ticket> tickets = new HashSet<>();
+
+    public void addTicket(Ticket ticket) {
+        tickets.add(ticket);
+        ticket.setFlight(this);
+    }
 }

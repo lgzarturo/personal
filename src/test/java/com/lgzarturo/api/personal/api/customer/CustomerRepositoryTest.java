@@ -1,5 +1,8 @@
 package com.lgzarturo.api.personal.api.customer;
 
+import com.lgzarturo.api.personal.api.flight.Airline;
+import com.lgzarturo.api.personal.api.flight.Flight;
+import com.lgzarturo.api.personal.api.flight.FlightRepository;
 import com.lgzarturo.api.personal.api.hotel.Hotel;
 import com.lgzarturo.api.personal.api.hotel.HotelRepository;
 import com.lgzarturo.api.personal.api.reservation.Reservation;
@@ -39,6 +42,8 @@ class CustomerRepositoryTest {
 
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private FlightRepository flightRepository;
     @Autowired
     private HotelRepository hotelRepository;
     @Autowired
@@ -101,6 +106,18 @@ class CustomerRepositoryTest {
         ticket.setPrice(BigDecimal.valueOf(1000));
         ticket.setTour(tourPersisted);
 
+        Flight flight = new Flight();
+        flight.setId(1L);
+        flight.setAirline(Airline.AEROMEXICO);
+        flight.setFlightNumber("123");
+        flight.setDestinationName("MEX");
+        flight.setOriginName("CUN");
+        flight.setOriginLatitude(0.0);
+        flight.setOriginLongitude(0.0);
+        flight.setDestinationLatitude(0.0);
+        flight.setDestinationLongitude(0.0);
+        flight.setPrice(BigDecimal.valueOf(1000));
+
         Reservation reservation = new Reservation();
         reservation.setId(UUID.randomUUID());
         reservation.setDateReservation(LocalDateTime.now());
@@ -134,6 +151,8 @@ class CustomerRepositoryTest {
         ticket.setCustomer(customer);
         ticket.setTour(tourPersisted);
         ticketRepository.save(ticket);
+        flight.addTicket(ticket);
+        flightRepository.save(flight);
         reservation.setCustomer(customer);
         reservation.setTour(tourPersisted);
         reservationRepository.save(reservation);
