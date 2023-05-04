@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class Seo extends AbstractAuditable<User, UUID> {
+public class Seo extends AbstractAuditable<User, Long> {
     @Column(length = 80)
     private String title;
     @Column(length = 160)

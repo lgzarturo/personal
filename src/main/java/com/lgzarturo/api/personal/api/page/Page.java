@@ -15,7 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class Page extends AbstractAuditable<User, UUID> {
+public class Page extends AbstractAuditable<User, Long> {
+    private UUID uuid = UUID.randomUUID();
     @Column(length = 240)
     private String title;
     @Column(unique = true)

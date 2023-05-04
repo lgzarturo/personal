@@ -17,7 +17,8 @@ import java.util.*;
 @AllArgsConstructor
 @Data
 @Builder
-public class Profile extends AbstractAuditable<User, UUID> {
+public class Profile extends AbstractAuditable<User, Long> {
+    private UUID uuid = UUID.randomUUID();
     @Column(length = 80)
     private String firstName;
     @Column(length = 80)

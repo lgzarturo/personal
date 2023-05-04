@@ -50,17 +50,16 @@ class FlightRepositoryTest {
             flight.setOriginName(destinations.get(random.nextInt(destinations.size())));
             flight.setDestinationName(destinations.get(random.nextInt(destinations.size())));
             flight.setPrice(prices.get(random.nextInt(prices.size())));
-            flightRepository.save(flight);
             int numberOfTickets = random.nextInt(4) + 1;
             for (int k=0; k<numberOfTickets; k++) {
                 Ticket ticket = new Ticket();
-                ticket.setId(UUID.randomUUID());
                 ticket.setPurchaseDate(LocalDate.now().plusDays(k));
                 ticket.setDepartureDate(LocalDate.now().plusDays(k+1));
                 ticket.setPrice(prices.get(random.nextInt(prices.size())));
-                ticket.setFlight(flight);
                 ticketRepository.save(ticket);
+                flight.addTicket(ticket);
             }
+            flightRepository.save(flight);
             flightNumbers.add(flight.getFlightNumber());
             if (priceMap.containsKey(flight.getPrice())) {
                 priceMap.put(flight.getPrice(), priceMap.get(flight.getPrice()) + 1);
@@ -89,6 +88,9 @@ class FlightRepositoryTest {
         // When
         Flight flight = flightRepository.selectByFlightNumber(flightNumber).orElse(null);
         System.out.println(flight);
+        assert flight != null;
+        System.out.println("Tickets:");
+        flight.getTickets().forEach(System.out::println);
         // Then
         assertNotNull(flight);
     }
@@ -107,6 +109,8 @@ class FlightRepositoryTest {
         // When
         Set<Flight> flights = flightRepository.selectByPriceGreaterThan(price);
         flights.forEach(System.out::println);
+        System.out.println("Tickets:");
+        flights.forEach(flight -> flight.getTickets().forEach(System.out::println));
         // Then
         assertEquals(priceCount, flights.size());
     }
@@ -127,6 +131,8 @@ class FlightRepositoryTest {
         // When
         Set<Flight> flights = flightRepository.selectByPriceLessThan(price);
         flights.forEach(System.out::println);
+        System.out.println("Tickets:");
+        flights.forEach(flight -> flight.getTickets().forEach(System.out::println));
         // Then
         assertEquals(priceCount, flights.size());
     }
@@ -157,6 +163,8 @@ class FlightRepositoryTest {
             minPrice.subtract(BigDecimal.valueOf(0.1)), maxPrice.add(BigDecimal.valueOf(0.1))
         );
         flights.forEach(System.out::println);
+        System.out.println("Tickets:");
+        flights.forEach(flight -> flight.getTickets().forEach(System.out::println));
         // Then
         assertEquals(priceCount, flights.size());
     }
@@ -171,6 +179,8 @@ class FlightRepositoryTest {
         // When
         Set<Flight> flights = flightRepository.selectByAirline(airline);
         flights.forEach(System.out::println);
+        System.out.println("Tickets:");
+        flights.forEach(flight -> flight.getTickets().forEach(System.out::println));
         // Then
         assertEquals(airlineMap.get(airline), flights.size());
     }
@@ -187,7 +197,21 @@ class FlightRepositoryTest {
         // When
         Set<Flight> flights = flightRepository.selectByOriginNameAndDestinationName(originName, destinationName);
         flights.forEach(System.out::println);
+        System.out.println("Tickets:");
+        flights.forEach(flight -> flight.getTickets().forEach(System.out::println));
         // Then
         assertEquals(destinationMap.get(key), flights.size());
+    }
+
+    @Test
+    void itShouldSelectFlightAndTicketById() {
+        for (int i=1; i<=10; i++) {
+            Flight flight = flightRepository.selectFlightAndTicketById((long) i).orElse(null);
+            assert flight != null;
+            System.out.println("Flight: "+flight.getId());
+            System.out.println(flight);
+            System.out.println("Tickets:");
+            flight.getTickets().forEach(System.out::println);
+        }
     }
 }

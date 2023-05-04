@@ -3,10 +3,7 @@ package com.lgzarturo.api.personal.api.reservation;
 import com.lgzarturo.api.personal.api.customer.Customer;
 import com.lgzarturo.api.personal.api.hotel.Hotel;
 import com.lgzarturo.api.personal.api.tour.Tour;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +21,9 @@ import java.util.UUID;
 @Builder
 public class Reservation {
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private UUID uuid = UUID.randomUUID();
     private LocalDateTime dateReservation;
     private LocalDate dateCheckIn;
     private LocalDate dateCheckOut;

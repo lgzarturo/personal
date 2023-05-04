@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
-public interface ReservationRepository extends CrudRepository<Reservation, UUID> {
+public interface ReservationRepository extends CrudRepository<Reservation, Long> {
 }

@@ -20,4 +20,6 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
     Set<Flight> selectByAirline(Airline airline);
     @Query("SELECT f FROM flights f WHERE f.originName = :originName AND f.destinationName = :destinationName")
     Set<Flight> selectByOriginNameAndDestinationName(String originName, String destinationName);
+    @Query("SELECT f FROM flights f JOIN FETCH f.tickets t WHERE f.id = :flightId")
+    Optional<Flight> selectFlightAndTicketById(Long flightId);
 }

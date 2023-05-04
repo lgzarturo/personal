@@ -89,7 +89,7 @@ class CustomerRepositoryTest {
         // When
         Assertions.assertTrue(violations.isEmpty());
         customerRepository.save(customer);
-        UUID id = Objects.requireNonNull(customer.getId());
+        Long id = Objects.requireNonNull(customer.getId());
         Customer persistedCustomer = customerRepository.findById(id).orElseThrow();
         // Then
         assertNotNull(persistedCustomer.getId());
@@ -99,7 +99,6 @@ class CustomerRepositoryTest {
     void itShouldSaveCustomerWithAllFields() {
         // Given
         Ticket ticket = new Ticket();
-        ticket.setId(UUID.randomUUID());
         ticket.setArrivalDate(LocalDate.now().plusDays(2));
         ticket.setDepartureDate(LocalDate.now().plusDays(10));
         ticket.setPurchaseDate(LocalDate.now());
@@ -119,7 +118,6 @@ class CustomerRepositoryTest {
         flight.setPrice(BigDecimal.valueOf(1000));
 
         Reservation reservation = new Reservation();
-        reservation.setId(UUID.randomUUID());
         reservation.setDateReservation(LocalDateTime.now());
         reservation.setDateCheckIn(LocalDate.now().plusDays(2));
         reservation.setDateCheckOut(LocalDate.now().plusDays(10));
@@ -163,7 +161,7 @@ class CustomerRepositoryTest {
         hotelPersisted.addReservation(reservation);
         hotelRepository.save(hotelPersisted);
 
-        UUID id = Objects.requireNonNull(customer.getId());
+        Long id = Objects.requireNonNull(customer.getId());
         Customer persistedCustomer = customerRepository.findById(id).orElseThrow();
         // Then
         assertNotNull(persistedCustomer.getId());

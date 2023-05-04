@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name="comments")
@@ -16,6 +17,7 @@ import java.util.Map;
 @Data
 @Builder
 public class Comment extends AbstractAuditable<User, Long> {
+    private UUID uuid = UUID.randomUUID();
     @Column(length = 8000, columnDefinition = "TEXT")
     private String content;
     private Long authorId;

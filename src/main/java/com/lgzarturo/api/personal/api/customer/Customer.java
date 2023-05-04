@@ -22,7 +22,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class Customer extends AbstractAuditable<User, UUID> {
+public class Customer extends AbstractAuditable<User, Long> {
+    private UUID uuid = UUID.randomUUID();
     @NotBlank
     @Length(min = 3, max = 50)
     @Column(length = 50, nullable = false)

@@ -33,6 +33,7 @@ class WebControllerTest {
         // Then
         mockMvc.perform(request)
             .andExpect(MockMvcResultMatchers.status().isOk())
+            .andDo(result -> System.out.println(result.getResponse().getContentAsString()))
             .andExpect(MockMvcResultMatchers.jsonPath("$.message").exists())
             .andExpect(MockMvcResultMatchers.jsonPath("$.timestamp").exists());
     }

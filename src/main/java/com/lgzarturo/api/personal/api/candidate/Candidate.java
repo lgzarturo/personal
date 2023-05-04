@@ -17,7 +17,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class Candidate extends AbstractAuditable<User, UUID> {
+public class Candidate extends AbstractAuditable<User, Long> {
+    private UUID uuid = UUID.randomUUID();
     @Column(length = 200)
     private String resume;
     @Column(length = 8000, columnDefinition = "TEXT")

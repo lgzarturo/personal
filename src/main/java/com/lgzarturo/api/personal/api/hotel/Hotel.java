@@ -8,6 +8,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity(name="hotels")
 @NoArgsConstructor
@@ -18,6 +19,7 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private UUID uuid = UUID.randomUUID();
     @Column(length = 80)
     private String name;
     @ManyToOne

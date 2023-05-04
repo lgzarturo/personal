@@ -9,6 +9,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity(name="tours")
 @NoArgsConstructor
@@ -19,6 +20,7 @@ public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private UUID uuid = UUID.randomUUID();
     private String name;
     private String description;
     private Integer totalPersons = 0;
