@@ -2,9 +2,11 @@ package com.lgzarturo.api.personal.api.hotel;
 
 import com.lgzarturo.api.personal.api.address.Address;
 import com.lgzarturo.api.personal.api.reservation.Reservation;
+import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -16,10 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-public class Hotel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Hotel extends AbstractAuditable<User, Long> {
     @NotBlank
     @Column(length = 80, nullable = false)
     private String name;

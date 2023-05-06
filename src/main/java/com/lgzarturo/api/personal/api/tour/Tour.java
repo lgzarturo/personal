@@ -3,8 +3,10 @@ package com.lgzarturo.api.personal.api.tour;
 import com.lgzarturo.api.personal.api.customer.Customer;
 import com.lgzarturo.api.personal.api.reservation.Reservation;
 import com.lgzarturo.api.personal.api.ticket.Ticket;
+import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -16,10 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-public class Tour {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Tour extends AbstractAuditable<User, Long> {
     private String name;
     private String description;
     private Integer totalPersons;

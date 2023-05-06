@@ -1,8 +1,10 @@
 package com.lgzarturo.api.personal.api.flight;
 
 import com.lgzarturo.api.personal.api.ticket.Ticket;
+import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -14,10 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-public class Flight {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Flight extends AbstractAuditable<User, Long> {
     @Column(length = 40, unique = true)
     private String flightNumber;
     private Double originLatitude;

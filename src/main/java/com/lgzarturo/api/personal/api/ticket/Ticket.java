@@ -3,11 +3,13 @@ package com.lgzarturo.api.personal.api.ticket;
 import com.lgzarturo.api.personal.api.customer.Customer;
 import com.lgzarturo.api.personal.api.flight.Flight;
 import com.lgzarturo.api.personal.api.tour.Tour;
+import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,10 +19,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 @Builder
-public class Ticket {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Ticket extends AbstractAuditable<User, Long> {
     private LocalDate arrivalDate;
     private LocalDate departureDate;
     private LocalDate purchaseDate;

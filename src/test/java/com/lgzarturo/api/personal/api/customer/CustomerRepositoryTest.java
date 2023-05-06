@@ -61,7 +61,6 @@ class CustomerRepositoryTest {
         hotelRepository.deleteAll();
         tourRepository.deleteAll();
         Hotel hotel = new Hotel();
-        hotel.setId(1L);
         hotel.setName("Hotel");
         hotel.setAddress(null);
         hotel.setRating(5);
@@ -69,7 +68,6 @@ class CustomerRepositoryTest {
         hotel.setMaximumPrice(BigDecimal.valueOf(10000));
         hotelPersisted = hotelRepository.save(hotel);
         Tour tour = new Tour();
-        tour.setId(1L);
         tour.setName("Tour");
         tour.setDescription("Description");
         tour.setPrice(BigDecimal.valueOf(1000));
@@ -106,7 +104,6 @@ class CustomerRepositoryTest {
         ticket.setTour(tourPersisted);
 
         Flight flight = new Flight();
-        flight.setId(1L);
         flight.setAirline(Airline.AEROMEXICO);
         flight.setFlightNumber("123");
         flight.setDestinationName("MEX");
