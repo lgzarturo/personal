@@ -71,7 +71,7 @@ class HotelRepositoryTest {
             maximumPrices.add(savedMaximumPrice);
             priceMap.put(savedMinimumPrice, savedMaximumPrice);
             hotelRepository.save(hotel);
-            int numberOfReservations = random.nextInt(5);
+            int numberOfReservations = random.nextInt(5) + 1;
             for (int j=0; j<numberOfReservations; j++) {
                 Reservation reservation = new Reservation();
                 reservation.setHotel(hotel);

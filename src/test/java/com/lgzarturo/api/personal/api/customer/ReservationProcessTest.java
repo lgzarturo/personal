@@ -6,7 +6,9 @@ import com.lgzarturo.api.personal.api.flight.FlightRepository;
 import com.lgzarturo.api.personal.api.hotel.Hotel;
 import com.lgzarturo.api.personal.api.hotel.HotelRepository;
 import com.lgzarturo.api.personal.api.reservation.Reservation;
+import com.lgzarturo.api.personal.api.reservation.ReservationRepository;
 import com.lgzarturo.api.personal.api.ticket.Ticket;
+import com.lgzarturo.api.personal.api.ticket.TicketRepository;
 import com.lgzarturo.api.personal.api.tour.Tour;
 import com.lgzarturo.api.personal.api.tour.TourRepository;
 import org.junit.jupiter.api.Assertions;
@@ -21,6 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -35,6 +38,11 @@ public class ReservationProcessTest {
     private FlightRepository flightRepository;
     @Autowired
     private TourRepository tourRepository;
+    @Autowired
+    private TicketRepository ticketRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
+
 
     private Customer customer;
     private Hotel hotel;
@@ -83,7 +91,6 @@ public class ReservationProcessTest {
             .purchaseDate(LocalDate.now().minusDays(2))
             .price(tour.getPrice())
             .flight(flight)
-            .tour(tour)
             .customer(customer)
             .build();
         Reservation reservation = Reservation.builder()
@@ -93,13 +100,24 @@ public class ReservationProcessTest {
             .totalNights(3)
             .totalAmount(tour.getPrice())
             .hotel(hotel)
-            .tour(tour)
             .customer(customer)
             .build();
         tour.addTicket(ticket);
         tour.addReservation(reservation);
         tourRepository.save(tour);
         // Then
-        System.out.println("Reservation: " + reservation);
+        Assertions.assertNotNull(tour);
+        Long id = tour.getId();
+        assert id != null;
+        Tour tourFound = tourRepository.findById(id).orElse(null);
+        assert tourFound != null;
+        Long reservationId = Objects.requireNonNull(tourFound.getReservations().stream().findFirst().orElse(null)).getId();
+        Long ticketId = Objects.requireNonNull(tourFound.getTickets().stream().findFirst().orElse(null)).getId();
+        assert reservationId != null;
+        assert ticketId != null;
+        tourRepository.deleteById(id);
+        Assertions.assertFalse(tourRepository.findById(id).isPresent());
+        Assertions.assertFalse(reservationRepository.findById(reservationId).isPresent());
+        Assertions.assertFalse(ticketRepository.findById(ticketId).isPresent());
     }
 }

@@ -30,7 +30,7 @@ public class Hotel extends AbstractAuditable<User, Long> {
     private BigDecimal maximumPrice;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Reservation> reservations;
 
     public void addReservation(Reservation reservation) {
