@@ -86,9 +86,9 @@ public class ReservationProcessTest {
             .customer(customer)
             .build();
         Ticket ticket = Ticket.builder()
-            .arrivalDate(LocalDate.now())
-            .departureDate(LocalDate.now().plusDays(3))
-            .purchaseDate(LocalDate.now().minusDays(2))
+            .arrivalDate(LocalDateTime.now())
+            .departureDate(LocalDateTime.now().plusDays(3))
+            .purchaseDate(LocalDateTime.now().minusDays(2))
             .price(tour.getPrice())
             .flight(flight)
             .customer(customer)

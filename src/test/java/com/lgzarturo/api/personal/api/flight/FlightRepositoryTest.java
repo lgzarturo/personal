@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,8 +55,8 @@ class FlightRepositoryTest {
             int numberOfTickets = random.nextInt(4) + 1;
             for (int k=0; k<numberOfTickets; k++) {
                 Ticket ticket = new Ticket();
-                ticket.setPurchaseDate(LocalDate.now().plusDays(k));
-                ticket.setDepartureDate(LocalDate.now().plusDays(k+1));
+                ticket.setPurchaseDate(LocalDateTime.now().plusDays(k));
+                ticket.setDepartureDate(LocalDateTime.now().plusDays(k+1));
                 ticket.setPrice(prices.get(random.nextInt(prices.size())));
                 ticketRepository.save(ticket);
                 flight.addTicket(ticket);

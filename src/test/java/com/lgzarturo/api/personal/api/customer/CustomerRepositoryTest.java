@@ -97,9 +97,9 @@ class CustomerRepositoryTest {
     void itShouldSaveCustomerWithAllFields() {
         // Given
         Ticket ticket = new Ticket();
-        ticket.setArrivalDate(LocalDate.now().plusDays(2));
-        ticket.setDepartureDate(LocalDate.now().plusDays(10));
-        ticket.setPurchaseDate(LocalDate.now());
+        ticket.setArrivalDate(LocalDateTime.now().plusDays(2));
+        ticket.setDepartureDate(LocalDateTime.now().plusDays(10));
+        ticket.setPurchaseDate(LocalDateTime.now());
         ticket.setPrice(BigDecimal.valueOf(1000));
         ticket.setTour(tourPersisted);
 
