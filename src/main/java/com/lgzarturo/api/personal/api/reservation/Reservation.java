@@ -34,7 +34,7 @@ public class Reservation {
     @JoinColumn(name="hotel_id")
     private Hotel hotel;
     @ManyToOne
-    @JoinColumn(name="tour_id", nullable = true)
+    @JoinColumn(name="tour_id")
     private Tour tour;
     @ManyToOne
     @JoinColumn(name="customer_id")
