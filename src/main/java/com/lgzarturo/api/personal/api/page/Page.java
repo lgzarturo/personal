@@ -6,8 +6,8 @@ import lombok.*;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name="pages")
@@ -16,7 +16,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class Page extends AbstractAuditable<User, Long> {
-    private UUID uuid = UUID.randomUUID();
     @Column(length = 240)
     private String title;
     @Column(unique = true)
@@ -33,8 +32,14 @@ public class Page extends AbstractAuditable<User, Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PageTag> tags = new HashSet<>();
+    private Set<PageTag> tags;
     @ManyToOne
     @JoinColumn(name="author_id")
     private User author;
+
+    public void addTag(PageTag tag) {
+        if (Objects.isNull(tags)) tags = new HashSet<>();
+        tags.add(tag);
+        tag.setPage(this);
+    }
 }

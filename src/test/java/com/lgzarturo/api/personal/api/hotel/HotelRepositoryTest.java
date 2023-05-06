@@ -42,7 +42,7 @@ class HotelRepositoryTest {
         "Uruguay", "Venezuela", "México", "Estados Unidos", "Canadá", "Cuba", "Haití", "República Dominicana"
     );
     List<String> selectedCountries = new ArrayList<>();
-    List<UUID> reservations = new ArrayList<>();
+    List<Long> reservations = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -79,9 +79,9 @@ class HotelRepositoryTest {
                 reservation.setDateCheckOut(LocalDate.now().plusDays(random.nextInt(10)));
                 reservation.setTotalNights(reservation.getDateCheckOut().getDayOfYear() - reservation.getDateCheckIn().getDayOfYear());
                 reservation.setTotalAmount(hotel.getMinimumPrice().multiply(BigDecimal.valueOf(reservation.getTotalNights())));
-                reservations.add(reservation.getUuid());
                 hotel.addReservation(reservation);
                 reservationRepository.save(reservation);
+                reservations.add(reservation.getId());
             }
         }
     }
@@ -131,11 +131,11 @@ class HotelRepositoryTest {
     @Test
     void itShouldFindByReservations() {
         // Given
-        UUID reservationUuid = reservations.get(new Random().nextInt(reservations.size()));
-        Reservation reservation = reservationRepository.findByUuid(reservationUuid).orElseThrow();
+        Long reservationId = reservations.get(new Random().nextInt(reservations.size()));
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
         // When
         Hotel hotel = hotelRepository.findByReservationsIn(Set.of(reservation)).orElseThrow();
         // Then
-        Assertions.assertTrue(hotel.getReservations().stream().anyMatch(reservation1 -> reservation1.getUuid().equals(reservationUuid)));
+        Assertions.assertTrue(hotel.getReservations().stream().anyMatch(reservation1 -> reservation1.getId().equals(reservationId)));
     }
 }

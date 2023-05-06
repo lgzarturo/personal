@@ -8,8 +8,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity(name="tours")
 @NoArgsConstructor
@@ -20,10 +20,9 @@ public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private UUID uuid = UUID.randomUUID();
     private String name;
     private String description;
-    private Integer totalPersons = 0;
+    private Integer totalPersons;
     private BigDecimal price;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
@@ -38,11 +37,13 @@ public class Tour {
     private Customer customer;
 
     public void addReservation(Reservation reservation) {
+        if (Objects.isNull(reservations)) reservations = new HashSet<>();
         reservations.add(reservation);
         reservation.setTour(this);
     }
 
     public void addTicket(Ticket ticket) {
+        if (Objects.isNull(tickets)) tickets = new HashSet<>();
         tickets.add(ticket);
         ticket.setTour(this);
     }

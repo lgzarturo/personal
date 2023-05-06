@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Objects;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name="candidates")
@@ -18,7 +18,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class Candidate extends AbstractAuditable<User, Long> {
-    private UUID uuid = UUID.randomUUID();
     @Column(length = 200)
     private String resume;
     @Column(length = 8000, columnDefinition = "TEXT")
@@ -30,11 +29,16 @@ public class Candidate extends AbstractAuditable<User, Long> {
     @MapKeyColumn(name="name")
     @Column(name="value")
     @CollectionTable(name="candidate_attributes", joinColumns=@JoinColumn(name="candidate_id"))
-    private Map<String, String> attributes = new HashMap<>();
+    private Map<String, String> attributes;
     @ManyToOne
     @JoinColumn(name="job_id")
     private Job job;
     @ManyToOne
     @JoinColumn(name="profile_id")
     private Profile profile;
+
+    private void addAttribute(String name, String value) {
+        if (Objects.isNull(attributes)) attributes = new HashMap<>();
+        attributes.put(name, value);
+    }
 }

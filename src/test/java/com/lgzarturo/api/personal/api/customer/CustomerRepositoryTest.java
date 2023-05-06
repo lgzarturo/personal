@@ -145,21 +145,23 @@ class CustomerRepositoryTest {
         // When
         Assertions.assertTrue(violations.isEmpty());
 
-        customerRepository.save(customer);
+        // Relationships
         ticket.setCustomer(customer);
         ticket.setTour(tourPersisted);
-        ticketRepository.save(ticket);
         flight.addTicket(ticket);
-        flightRepository.save(flight);
         reservation.setCustomer(customer);
         reservation.setTour(tourPersisted);
-        reservationRepository.save(reservation);
         tourPersisted.setCustomer(customer);
         tourPersisted.addTicket(ticket);
         tourPersisted.addReservation(reservation);
-        tourRepository.save(tourPersisted);
         hotelPersisted.addReservation(reservation);
+
+        // Save entities
+        flightRepository.save(flight);
+        reservationRepository.save(reservation);
+        ticketRepository.save(ticket);
         hotelRepository.save(hotelPersisted);
+        customerRepository.save(customer);
 
         Long id = Objects.requireNonNull(customer.getId());
         Customer persistedCustomer = customerRepository.findById(id).orElseThrow();

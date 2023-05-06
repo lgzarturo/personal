@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Objects;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name="comments")
@@ -17,7 +17,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class Comment extends AbstractAuditable<User, Long> {
-    private UUID uuid = UUID.randomUUID();
     @Column(length = 8000, columnDefinition = "TEXT")
     private String content;
     private Long authorId;
@@ -35,9 +34,13 @@ public class Comment extends AbstractAuditable<User, Long> {
     @MapKeyColumn(name="name")
     @Column(name="value")
     @CollectionTable(name="comment_attributes", joinColumns=@JoinColumn(name="comment_id"))
-    private Map<String, String> attributes = new HashMap<>();
+    private Map<String, String> attributes;
     @ManyToOne
     @JoinColumn(name="post_id")
     private Post post;
 
+    private void addAttribute(String name, String value) {
+        if (Objects.isNull(attributes)) attributes = new HashMap<>();
+        attributes.put(name, value);
+    }
 }

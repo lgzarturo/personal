@@ -36,6 +36,7 @@ class FlightRepositoryTest {
     HashMap<BigDecimal, Integer> priceMap = new HashMap<>();
     HashMap<Airline, Integer> airlineMap = new HashMap<>();
     HashMap<String, Integer> destinationMap = new HashMap<>();
+    List<Long> flightIds = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -60,6 +61,7 @@ class FlightRepositoryTest {
                 flight.addTicket(ticket);
             }
             flightRepository.save(flight);
+            flightIds.add(flight.getId());
             flightNumbers.add(flight.getFlightNumber());
             if (priceMap.containsKey(flight.getPrice())) {
                 priceMap.put(flight.getPrice(), priceMap.get(flight.getPrice()) + 1);
@@ -205,13 +207,13 @@ class FlightRepositoryTest {
 
     @Test
     void itShouldSelectFlightAndTicketById() {
-        for (int i=1; i<=10; i++) {
-            Flight flight = flightRepository.selectFlightAndTicketById((long) i).orElse(null);
+        flightIds.forEach(id -> {
+            Flight flight = flightRepository.selectFlightAndTicketById(id).orElse(null);
             assert flight != null;
             System.out.println("Flight: "+flight.getId());
             System.out.println(flight);
             System.out.println("Tickets:");
             flight.getTickets().forEach(System.out::println);
-        }
+        });
     }
 }

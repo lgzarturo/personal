@@ -17,7 +17,6 @@ import java.util.*;
 @Data
 @Builder
 public class Job extends AbstractAuditable<User, Long> {
-    private UUID uuid = UUID.randomUUID();
     @Column(length = 160)
     private String title;
     @Column(length = 240)
@@ -37,10 +36,21 @@ public class Job extends AbstractAuditable<User, Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Candidate> candidates = new HashSet<>();
+    private Set<Candidate> candidates;
     @ElementCollection
     @MapKeyColumn(name="name")
     @Column(name="value")
     @CollectionTable(name="job_attributes", joinColumns=@JoinColumn(name="job_id"))
-    private Map<String, String> attributes = new HashMap<>();
+    private Map<String, String> attributes;
+
+    public void addCandidate(Candidate candidate) {
+        if (Objects.isNull(candidates)) candidates = new HashSet<>();
+        candidates.add(candidate);
+        candidate.setJob(this);
+    }
+
+    private void addAttribute(String name, String value) {
+        if (Objects.isNull(attributes)) attributes = new HashMap<>();
+        attributes.put(name, value);
+    }
 }

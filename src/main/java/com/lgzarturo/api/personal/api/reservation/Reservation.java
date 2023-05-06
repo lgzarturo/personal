@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity(name="reservations")
 @NoArgsConstructor
@@ -23,7 +22,6 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private UUID uuid = UUID.randomUUID();
     private LocalDateTime dateReservation;
     private LocalDate dateCheckIn;
     private LocalDate dateCheckOut;

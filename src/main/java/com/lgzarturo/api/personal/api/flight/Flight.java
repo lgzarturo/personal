@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name="flights")
@@ -34,9 +35,10 @@ public class Flight {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Ticket> tickets = new HashSet<>();
+    private Set<Ticket> tickets;
 
     public void addTicket(Ticket ticket) {
+        if (Objects.isNull(tickets)) tickets = new HashSet<>();
         tickets.add(ticket);
         ticket.setFlight(this);
     }

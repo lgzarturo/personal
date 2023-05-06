@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity(name="tickets")
 @NoArgsConstructor
@@ -22,7 +21,6 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private UUID uuid = UUID.randomUUID();
     private LocalDate arrivalDate;
     private LocalDate departureDate;
     private LocalDate purchaseDate;

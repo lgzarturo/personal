@@ -8,7 +8,6 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name="posts")
@@ -17,7 +16,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class Post extends AbstractAuditable<User, Long> {
-    private UUID uuid = UUID.randomUUID();
     @Column(length = 240)
     private String title;
     @Column(columnDefinition = "TEXT")
@@ -25,12 +23,24 @@ public class Post extends AbstractAuditable<User, Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Comment> comments = new HashSet<>();
+    private Set<Comment> comments;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PostTag> tags = new HashSet<>();
+    private Set<PostTag> tags;
     @ManyToOne
     @JoinColumn(name="author_id")
     private User author;
+
+    public void addComment(Comment comment) {
+        if (comments == null) comments = new HashSet<>();
+        comments.add(comment);
+        comment.setPost(this);
+    }
+
+    public void addTag(PostTag tag) {
+        if (tags == null) tags = new HashSet<>();
+        tags.add(tag);
+        tag.setPost(this);
+    }
 }
