@@ -209,3 +209,9 @@ Add additional notes about how to deploy this on a live system
 * [Spring Boot Configuration Processor](https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html) - Used to generate metadata for IDEs
 * [Spring Boot Starter Test](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html) - Used to test the REST API
 * [Spring Boot Starter Web](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-developing-web-applications) - Used to create web applications
+* [Faker Java](https://github.com/DiUS/java-faker) - Used to generate fake data for testing purposes.
+* [Lombok](https://projectlombok.org/) - Used to reduce boilerplate code.
+* [MapStruct](https://mapstruct.org/) - Used to generate mapper implementations.
+* [PostgreSQL](https://www.postgresql.org/) - Used as a relational database.
+* [Docker](https://www.docker.com/) - Used to containerize the application.
+* [Docker Compose](https://docs.docker.com/compose/) - Used to define and run multi-container Docker applications.
