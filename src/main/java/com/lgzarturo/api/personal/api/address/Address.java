@@ -18,7 +18,7 @@ public class Address extends AbstractPersistable<Long> {
     private String city;
     @Column(length = 40)
     private String state;
-    @Column(length = 40)
+    @Column(length = 80)
     private String country;
     @Column(length = 12)
     private String zipCode;

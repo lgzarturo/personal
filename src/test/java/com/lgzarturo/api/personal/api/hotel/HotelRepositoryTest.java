@@ -4,6 +4,7 @@ import com.lgzarturo.api.personal.api.address.Address;
 import com.lgzarturo.api.personal.api.address.AddressRepository;
 import com.lgzarturo.api.personal.api.reservation.Reservation;
 import com.lgzarturo.api.personal.api.reservation.ReservationRepository;
+import com.lgzarturo.api.personal.utils.Helpers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
 
 @ExtendWith(SpringExtension.class)
@@ -29,18 +29,9 @@ class HotelRepositoryTest {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    List<BigDecimal> prices = List.of(
-        BigDecimal.valueOf(1000.0), BigDecimal.valueOf(2000.0), BigDecimal.valueOf(3000.0), BigDecimal.valueOf(4000.0),
-        BigDecimal.valueOf(5000.0), BigDecimal.valueOf(6000.0), BigDecimal.valueOf(7000.0), BigDecimal.valueOf(8000.0),
-        BigDecimal.valueOf(9000.0), BigDecimal.valueOf(10000.0)
-    );
     List<BigDecimal> minimumPrices = new ArrayList<>();
     List<BigDecimal> maximumPrices = new ArrayList<>();
     HashMap<BigDecimal, BigDecimal> priceMap = new HashMap<>();
-    List<String> countries = List.of(
-        "Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Ecuador", "Guyana", "Paraguay", "Peru", "Surinam",
-        "Uruguay", "Venezuela", "México", "Estados Unidos", "Canadá", "Cuba", "Haití", "República Dominicana"
-    );
     List<String> selectedCountries = new ArrayList<>();
     List<Long> reservations = new ArrayList<>();
 
@@ -49,19 +40,10 @@ class HotelRepositoryTest {
         hotelRepository.deleteAll();
         for (int i=0; i<50; i++) {
             Random random = new Random();
-            Hotel hotel = new Hotel();
-            hotel.setName("Hotel " + i);
-            BigDecimal minimumPrice = prices.get(random.nextInt(prices.size()));
-            hotel.setMinimumPrice(minimumPrice);
-            hotel.setRating(random.nextInt(5) + 1);
-            hotel.setMaximumPrice(minimumPrice.add(BigDecimal.valueOf(1000.0)));
+            Hotel hotel = Helpers.getRandomHotel();
             BigDecimal savedMinimumPrice = hotel.getMinimumPrice().subtract(BigDecimal.valueOf(0.1));
             BigDecimal savedMaximumPrice = hotel.getMaximumPrice().add(BigDecimal.valueOf(0.1));
-            Address address = new Address();
-            address.setCountry(countries.get(random.nextInt(countries.size())));
-            address.setCity("City " + i);
-            address.setStreet("Street " + i);
-            address.setZipCode("Zip Code " + i);
+            Address address = Helpers.getRandomAddress();
             addressRepository.save(address);
             hotel.setAddress(address);
             if (!selectedCountries.contains(address.getCountry())) {
@@ -73,12 +55,7 @@ class HotelRepositoryTest {
             hotelRepository.save(hotel);
             int numberOfReservations = random.nextInt(5) + 1;
             for (int j=0; j<numberOfReservations; j++) {
-                Reservation reservation = new Reservation();
-                reservation.setHotel(hotel);
-                reservation.setDateCheckIn(LocalDate.now());
-                reservation.setDateCheckOut(LocalDate.now().plusDays(random.nextInt(10)));
-                reservation.setTotalNights(reservation.getDateCheckOut().getDayOfYear() - reservation.getDateCheckIn().getDayOfYear());
-                reservation.setTotalAmount(hotel.getMinimumPrice().multiply(BigDecimal.valueOf(reservation.getTotalNights())));
+                Reservation reservation = Helpers.getRandomReservation(hotel);
                 hotel.addReservation(reservation);
                 reservationRepository.save(reservation);
                 reservations.add(reservation.getId());
@@ -136,6 +113,6 @@ class HotelRepositoryTest {
         // When
         Hotel hotel = hotelRepository.findByReservationsIn(Set.of(reservation)).orElseThrow();
         // Then
-        Assertions.assertTrue(hotel.getReservations().stream().anyMatch(reservation1 -> reservation1.getId().equals(reservationId)));
+        Assertions.assertTrue(hotel.getReservations().stream().anyMatch(reservation1 -> Objects.equals(reservation1.getId(), reservationId)));
     }
 }

@@ -36,7 +36,7 @@ public class Bootstrap implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         log.info("Bootstrapping database");
         if (environment.acceptsProfiles(Profiles.of("production"))) {
             createAdministrator(userService, passwordEncoder, appConfigProperties);

@@ -3,6 +3,7 @@ package com.lgzarturo.api.personal.utils;
 import com.github.javafaker.CreditCardType;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
+import com.lgzarturo.api.personal.api.address.Address;
 import com.lgzarturo.api.personal.api.customer.Customer;
 import com.lgzarturo.api.personal.api.flight.Airline;
 import com.lgzarturo.api.personal.api.flight.Flight;
@@ -96,16 +97,31 @@ public class Helpers {
         return customer.build();
     }
 
-    public static Hotel getRandomHotel() {
-        Faker faker = new Faker();
-        Hotel hotel = new Hotel();
-        hotel.setName(faker.company().name());
-        hotel.setAddress(null);
-        hotel.setRating(5);
+    public static Hotel.HotelBuilder getHotelBuilder() {
+        var faker = new Faker();
         double value = Double.parseDouble(faker.commerce().price(500.00, 20000.00));
-        hotel.setMinimumPrice(BigDecimal.valueOf(value));
-        hotel.setMaximumPrice(BigDecimal.valueOf(value + (value * 0.25)));
-        return hotel;
+        return Hotel.builder()
+            .name(faker.company().name())
+            .rating(faker.random().nextInt(1, 5))
+            .minimumPrice(BigDecimal.valueOf(value))
+            .maximumPrice(BigDecimal.valueOf(value + (value * 0.25)));
+    }
+
+    public static Hotel getRandomHotel() {
+        return getHotelBuilder().build();
+    }
+
+    public static Address getRandomAddress() {
+        var faker = new Faker();
+        return Address.builder()
+            .street(faker.address().streetAddress())
+            .city(faker.address().city())
+            .state(faker.address().state())
+            .country(faker.address().country())
+            .zipCode(faker.address().zipCode())
+            .latitude(Double.parseDouble(faker.address().latitude()))
+            .longitude(Double.parseDouble(faker.address().latitude()))
+            .build();
     }
 
     public static Tour.TourBuilder getTourBuilder() {
