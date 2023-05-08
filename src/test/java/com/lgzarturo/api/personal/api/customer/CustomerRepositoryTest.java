@@ -1,6 +1,5 @@
 package com.lgzarturo.api.personal.api.customer;
 
-import com.lgzarturo.api.personal.api.flight.Airline;
 import com.lgzarturo.api.personal.api.flight.Flight;
 import com.lgzarturo.api.personal.api.flight.FlightRepository;
 import com.lgzarturo.api.personal.api.hotel.Hotel;
@@ -11,27 +10,21 @@ import com.lgzarturo.api.personal.api.ticket.Ticket;
 import com.lgzarturo.api.personal.api.ticket.TicketRepository;
 import com.lgzarturo.api.personal.api.tour.Tour;
 import com.lgzarturo.api.personal.api.tour.TourRepository;
+import com.lgzarturo.api.personal.utils.Helpers;
 import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Valid;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,28 +53,16 @@ class CustomerRepositoryTest {
         customerRepository.deleteAll();
         hotelRepository.deleteAll();
         tourRepository.deleteAll();
-        Hotel hotel = new Hotel();
-        hotel.setName("Hotel");
-        hotel.setAddress(null);
-        hotel.setRating(5);
-        hotel.setMinimumPrice(BigDecimal.valueOf(1000));
-        hotel.setMaximumPrice(BigDecimal.valueOf(10000));
+        Hotel hotel = Helpers.getRandomHotel();
         hotelPersisted = hotelRepository.save(hotel);
-        Tour tour = new Tour();
-        tour.setName("Tour");
-        tour.setDescription("Description");
-        tour.setPrice(BigDecimal.valueOf(1000));
+        Tour tour = Helpers.getRandomTour();
         tourPersisted = tourRepository.save(tour);
     }
 
     @Test
     void itShouldSaveCustomerWithRequiredFields() {
         // Given
-        Customer customer = Customer.builder()
-            .fullName("Arturo")
-            .creditCardNumber("1234567890123456")
-            .phoneNumber("1234567890")
-            .build();
+        Customer customer = Helpers.getRandomCustomer();
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
         // When
@@ -96,47 +77,10 @@ class CustomerRepositoryTest {
     @Test
     void itShouldSaveCustomerWithAllFields() {
         // Given
-        Ticket ticket = new Ticket();
-        ticket.setArrivalDate(LocalDateTime.now().plusDays(2));
-        ticket.setDepartureDate(LocalDateTime.now().plusDays(10));
-        ticket.setPurchaseDate(LocalDateTime.now());
-        ticket.setPrice(BigDecimal.valueOf(1000));
-        ticket.setTour(tourPersisted);
-
-        Flight flight = new Flight();
-        flight.setAirline(Airline.AEROMEXICO);
-        flight.setFlightNumber("123");
-        flight.setDestinationName("MEX");
-        flight.setOriginName("CUN");
-        flight.setOriginLatitude(0.0);
-        flight.setOriginLongitude(0.0);
-        flight.setDestinationLatitude(0.0);
-        flight.setDestinationLongitude(0.0);
-        flight.setPrice(BigDecimal.valueOf(1000));
-
-        Reservation reservation = new Reservation();
-        reservation.setDateReservation(LocalDateTime.now());
-        reservation.setDateCheckIn(LocalDate.now().plusDays(2));
-        reservation.setDateCheckOut(LocalDate.now().plusDays(10));
-        reservation.setTotalPersons(2);
-        reservation.setTotalNights(8);
-        reservation.setTotalAmount(BigDecimal.valueOf(3000));
-        reservation.setHotel(hotelPersisted);
-
-        Customer customer = Customer.builder()
-            .fullName("Arturo")
-            .creditCardNumber("1234567890123456")
-            .phoneNumber("1234567890")
-            .totalReservations(1)
-            .totalFlights(20)
-            .totalLodgings(15)
-            .totalTickets(1)
-            .totalTours(1)
-            .tickets(Set.of(ticket))
-            .reservations(Set.of(reservation))
-            .tours(Set.of(tourPersisted))
-            .build();
-
+        Ticket ticket = Helpers.getRandomTicket(tourPersisted);
+        Flight flight = Helpers.getRandomFlight();
+        Reservation reservation = Helpers.getRandomReservation(hotelPersisted);
+        Customer customer = Helpers.getUserWithTicketReservationAndTour(ticket, reservation, tourPersisted);
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
         // When
@@ -173,11 +117,7 @@ class CustomerRepositoryTest {
     @Test
     void itShouldGetCustomerByPhoneNumber() {
         // Given
-        Customer customer = Customer.builder()
-            .fullName("John Doe")
-            .creditCardNumber("1234567890123456")
-            .phoneNumber("1234567890")
-            .build();
+        Customer customer = Helpers.getRandomCustomer();
         customerRepository.save(customer);
         // When
         Customer persistedCustomer = customerRepository.findByPhoneNumber(customer.getPhoneNumber()).orElseThrow();
@@ -188,11 +128,7 @@ class CustomerRepositoryTest {
     @Test
     void itShouldGetCustomerByFullName() {
         // Given
-        Customer customer = Customer.builder()
-            .fullName("John Doe")
-            .creditCardNumber("1234567890123456")
-            .phoneNumber("1234567890")
-            .build();
+        Customer customer = Helpers.getRandomCustomer();
         customerRepository.save(customer);
         // When
         Customer persistedCustomer = customerRepository.findByFullName(customer.getFullName()).orElseThrow();

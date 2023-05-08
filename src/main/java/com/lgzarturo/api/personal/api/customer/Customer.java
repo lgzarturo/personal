@@ -32,8 +32,8 @@ public class Customer extends AbstractAuditable<User, Long> {
     @Column(length = 7)
     private String creditCardExpirationDate;
     @NotBlank
-    @Length(min = 10, max = 12)
-    @Column(length = 12, nullable = false)
+    @Length(min = 10, max = 24)
+    @Column(length = 24, nullable = false)
     private String phoneNumber;
     private Integer totalReservations = 0;
     private Integer totalFlights = 0;
