@@ -1,9 +1,12 @@
 package com.lgzarturo.api.personal.config;
 
+import com.lgzarturo.api.personal.api.customer.CustomerRepository;
+import com.lgzarturo.api.personal.api.flight.FlightRepository;
 import com.lgzarturo.api.personal.api.user.Role;
 import com.lgzarturo.api.personal.api.user.User;
 import com.lgzarturo.api.personal.api.user.UserService;
 import com.lgzarturo.api.personal.utils.Helpers;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -14,30 +17,24 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Component
 @Slf4j
 public class Bootstrap implements ApplicationRunner {
 
     private final AppConfigProperties appConfigProperties;
+    private final CustomerRepository customerRepository;
+    private final FlightRepository flightRepository;
     private final Environment environment;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public Bootstrap(
-        AppConfigProperties appConfigProperties,
-        Environment environment,
-        UserService userService,
-        PasswordEncoder passwordEncoder
-    ) {
-        this.appConfigProperties = appConfigProperties;
-        this.environment = environment;
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     @Override
     public void run(ApplicationArguments args) {
         log.info("Bootstrapping database");
+        if (environment.acceptsProfiles(Profiles.of("development"))) {
+            createTestData(customerRepository, flightRepository);
+        }
         if (environment.acceptsProfiles(Profiles.of("production"))) {
             createAdministrator(userService, passwordEncoder, appConfigProperties);
         } else {
@@ -85,5 +82,16 @@ public class Bootstrap implements ApplicationRunner {
         userService.create(user);
         assert user.getId() != null;
         log.info("Created user administrator: {}", user.getEmail());
+    }
+
+    private static void createTestData(
+        CustomerRepository customerRepository,
+        FlightRepository flightRepository
+    ) {
+        log.info("Creating test data");
+        customerRepository.deleteAll();
+        flightRepository.deleteAll();
+        customerRepository.saveAll(Helpers.getRandomCustomers(20));
+        flightRepository.saveAll(Helpers.getRandomFlights(60));
     }
 }

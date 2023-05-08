@@ -25,8 +25,8 @@ public class Customer extends AbstractAuditable<User, Long> {
     @Column(length = 50, nullable = false)
     private String fullName;
     @NotBlank
-    @Length(min = 12, max = 20)
-    @Column(length = 20, nullable = false)
+    @Length(min = 12, max = 36)
+    @Column(length = 36, nullable = false)
     private String creditCardNumber;
     @Length(min = 5, max = 7)
     @Column(length = 7)

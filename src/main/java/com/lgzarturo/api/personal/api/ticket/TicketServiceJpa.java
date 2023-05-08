@@ -4,12 +4,11 @@ import com.lgzarturo.api.personal.api.customer.Customer;
 import com.lgzarturo.api.personal.api.customer.CustomerRepository;
 import com.lgzarturo.api.personal.api.flight.Flight;
 import com.lgzarturo.api.personal.api.flight.FlightRepository;
-import com.lgzarturo.api.personal.api.flight.dto.FlightResponse;
 import com.lgzarturo.api.personal.api.ticket.dto.TicketRequest;
 import com.lgzarturo.api.personal.api.ticket.dto.TicketResponse;
+import com.lgzarturo.api.personal.api.ticket.mapper.TicketMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,37 +32,42 @@ public class TicketServiceJpa implements TicketService {
         Ticket ticket = Ticket.builder()
             .flight(flight)
             .customer(customer)
-            .price(flight.getPrice().multiply(BigDecimal.valueOf(0.25)))
+            .price(flight.getPrice().multiply(BigDecimal.valueOf(1.25)))
             .purchaseDate(LocalDateTime.now())
             .arrivalDate(LocalDateTime.now())
             .departureDate(LocalDateTime.now())
             .build();
+        flight.addTicket(ticket);
+        customer.addTicket(ticket);
         Ticket savedTicket = ticketRepository.save(ticket);
         log.info("Ticket saved: {}", savedTicket);
-        return mapToResponse(savedTicket);
+        return TicketMapper.INSTANCE.mapToResponse(ticket);
     }
 
     @Override
     public TicketResponse read(Long id) {
-        return null;
+        Ticket ticket = getById(id);
+        return TicketMapper.INSTANCE.mapToResponse(ticket);
     }
 
     @Override
-    public TicketResponse update(Long aLong, TicketRequest request) {
-        return null;
+    public TicketResponse update(Long id, TicketRequest request) {
+        Ticket ticket = getById(id);
+        Flight flight = flightRepository.findById(request.getFlightId()).orElseThrow();
+        ticket.setPrice(flight.getPrice().multiply(BigDecimal.valueOf(1.25)));
+        ticket.setFlight(flight);
+        ticket.setLastModifiedDate(LocalDateTime.now());
+        Ticket savedTicket = ticketRepository.save(ticket);
+        return TicketMapper.INSTANCE.mapToResponse(savedTicket);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        Ticket ticket = getById(id);
+        ticketRepository.delete(ticket);
     }
 
-    private TicketResponse mapToResponse(Ticket ticket) {
-        TicketResponse response = new TicketResponse();
-        BeanUtils.copyProperties(ticket, response);
-        FlightResponse flightResponse = new FlightResponse();
-        BeanUtils.copyProperties(ticket.getFlight(), flightResponse);
-        response.setFlight(flightResponse);
-        return response;
+    private Ticket getById(Long id) {
+        return ticketRepository.findById(id).orElseThrow();
     }
 }

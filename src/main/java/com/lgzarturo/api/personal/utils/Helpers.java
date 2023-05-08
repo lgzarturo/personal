@@ -1,6 +1,5 @@
 package com.lgzarturo.api.personal.utils;
 
-import com.github.javafaker.CreditCardType;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 import com.lgzarturo.api.personal.api.address.Address;
@@ -73,15 +72,22 @@ public class Helpers {
         String firstName = name.firstName();
         String lastName = name.lastName();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.EXPIRATION_DATE_FORMAT);
+        int randomPlusYears = faker.random().nextInt(1, 5);
+        int randomPlusMonths = faker.random().nextInt(1, 12);
+        LocalDate expirationDate = LocalDate.now().plusYears(randomPlusYears).plusMonths(randomPlusMonths);
         return Customer.builder()
             .fullName(firstName + " " + lastName)
-            .creditCardNumber(faker.finance().creditCard(CreditCardType.MASTERCARD))
-            .creditCardExpirationDate(LocalDate.now().plusYears(3).format(formatter))
+            .creditCardNumber(faker.finance().creditCard())
+            .creditCardExpirationDate(expirationDate.format(formatter))
             .phoneNumber(faker.phoneNumber().phoneNumber());
     }
 
     public static Customer getRandomCustomer() {
         return getCustomerBuilder().build();
+    }
+
+    public static List<Customer> getRandomCustomers(int count) {
+        return Stream.of(new Customer[count]).map(customer -> getRandomCustomer()).toList();
     }
 
     public static Customer getUserWithTicketReservationAndTour(Ticket ticket, Reservation reservation, Tour tour) {
@@ -181,15 +187,19 @@ public class Helpers {
             .destinationName(airports.stream()
                 .filter(airport -> !airport.equals(destination))
                 .toList().get(faker.random().nextInt(airports.size()-1)))
-            .originLatitude(0.0)
-            .originLongitude(0.0)
-            .destinationLatitude(0.0)
-            .destinationLongitude(0.0)
+            .originLatitude(Double.parseDouble(faker.address().latitude()))
+            .originLongitude(Double.parseDouble(faker.address().longitude()))
+            .destinationLatitude(Double.parseDouble(faker.address().latitude()))
+            .destinationLongitude(Double.parseDouble(faker.address().longitude()))
             .price(BigDecimal.valueOf(Double.parseDouble(faker.commerce().price(1000.00, 30000.00))));
     }
 
     public static Flight getRandomFlight() {
         return getFlightBuilder().build();
+    }
+
+    public static List<Flight> getRandomFlights(int count) {
+        return Stream.of(new Flight[count]).map(flight -> getRandomFlight()).toList();
     }
 
     public static Reservation.ReservationBuilder getReservationBuilder() {

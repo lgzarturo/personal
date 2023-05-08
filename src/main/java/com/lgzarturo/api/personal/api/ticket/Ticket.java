@@ -24,13 +24,13 @@ public class Ticket extends AbstractAuditable<User, Long> {
     private LocalDateTime departureDate;
     private LocalDateTime purchaseDate;
     private BigDecimal price;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="flight_id")
     private Flight flight;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="tour_id")
     private Tour tour;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="customer_id")
     private Customer customer;
 }
