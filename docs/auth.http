@@ -2,9 +2,6 @@
 # Username and password are required to get a JWT token
 # The token is required to access the other APIs
 # Username are generated at the start of the application
-< {%
-    request.variables.set("username", "")
-%}
 POST /api/v1/auth/login HTTP/1.1
 Host: localhost:8080
 Content-Type: application/json
@@ -16,9 +13,6 @@ Content-Type: application/json
 
 ###
 # Get current user
-< {%
-    request.variables.set("token", "")
-%}
 GET /api/v1/auth/me HTTP/1.1
 Host: localhost:8080
 Authorization: Bearer {{token}}

@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("api/v1/tickets")
 @AllArgsConstructor
@@ -17,7 +19,9 @@ public class TicketController {
 
     @PostMapping
     public ResponseEntity<TicketResponse> post(@RequestBody @Valid TicketRequest ticketRequest) {
-        return ResponseEntity.ok(ticketService.create(ticketRequest));
+        TicketResponse ticketResponse = ticketService.create(ticketRequest);
+        URI location = URI.create(String.format("/api/v1/tickets/%s", ticketResponse.getId()));
+        return ResponseEntity.created(location).body(ticketResponse);
     }
 
     @GetMapping("/{id}")
@@ -27,7 +31,7 @@ public class TicketController {
 
     @PutMapping("/{id}")
     public ResponseEntity<TicketResponse> put(@PathVariable Long id, @RequestBody @Valid TicketRequest ticketRequest) {
-        return ResponseEntity.ok(ticketService.update(id, ticketRequest));
+        return ResponseEntity.accepted().body(ticketService.update(id, ticketRequest));
     }
 
     @DeleteMapping("/{id}")

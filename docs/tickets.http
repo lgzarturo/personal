@@ -1,0 +1,36 @@
+# Tickets API Documentation
+# Create Ticket
+POST /api/v1/tickets HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "customerId": 1,
+    "flightId": 3
+}
+
+###
+# Get Ticket
+GET /api/v1/tickets/{{ticketId}} HTTP/1.1
+Host: localhost:8080
+Authorization: Bearer {{token}}
+
+###
+# Update ticket
+PUT /api/v1/tickets/{{ticketId}} HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "customerId": 1,
+    "flightId": 2
+}
+
+
+###
+# Delete ticket
+DELETE /api/v1/tickets/{{ticketId}} HTTP/1.1
+Host: localhost:8080
+Authorization: Bearer {{token}}

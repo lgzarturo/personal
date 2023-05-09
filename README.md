@@ -8,6 +8,7 @@ At this moment, the API has the following endpoints:
 - The example user is generated in the database when the application starts.
 - Endpoint `/api/v1/auth/login` to log in with user credentials.
 - Endpoint `/api/v1/web/ping` to check if the API is up and running.
+- Ticket endpoint `/api/v1/tickets` to create a ticket.
 - The Application is secured with JWT authentication.
 - The API is secured with Spring Security.
 - Application profiles for development, stage, test and production.
@@ -29,7 +30,7 @@ At this moment, the API has the following endpoints:
 The project is structured in the following way:
 ```
 ├── com.lgzarturo.api.personal
-│   │   # API layer (REST controllers)
+│   │   # API layer (REST controllers and services)
 │   ├── api
 │   │   ├── auth
 │   │   │   ├── dto
@@ -48,6 +49,10 @@ The project is structured in the following way:
 │   │   │   │   └── UserMapper.java
 │   │   │   ├── UserController.java
 │   │   │   └── UserService.java
+│   │   │   # Generic layer (Generic classes, interfaces, etc.)
+│   │   ├── generic
+│   │   │   └── CrudService.java
+│   │   │   # Web layer (REST public controllers) 
 │   │   └── web
 │   │       ├── PingController.java
 │   │       └── PingService.java
@@ -103,6 +108,8 @@ What things you need to install the software and how to install them
 - Postman
 - Git
 - Spring Boot 3
+- PostgreSQL
+- Maven
 ```
 
 ### Installing
@@ -178,20 +185,37 @@ CREATE DATABASE personal_db;
 
 Explain how to run the automated tests for this system
 
-### Break down into end-to-end tests
+### Automated tests
 
-Explain what these tests test and why
+For running the automated tests, you need to execute the following command:
 
+```bash
+mvn test
 ```
-Give an example
+
+### Manual tests
+
+For running the manual tests, you need to create a test environment in the `docs` folder.
+
+- Create a file called `http-client.env.json` in the `docs` folder with the following content:
+  
+```json
+{
+  "dev": {
+    "username": "[email from admin user]",
+    "ticketId": "[ticket id]"
+  }
+}
 ```
 
-### And coding style tests
+- Create a file called `http-client.private.env.json` in `docs` folder with the following content:
 
-Explain what these tests test and why
-
-```
-Give an example
+```json
+{
+  "dev": {
+    "token": "[token from login request]"
+  }
+}
 ```
 
 ## Deployment

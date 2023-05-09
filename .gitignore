@@ -37,3 +37,5 @@ build/
 secrets.properties
 .env
 docs.md
+docs/http-client.env.json
+docs/http-client.private.env.json
