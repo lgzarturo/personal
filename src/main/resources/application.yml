@@ -3,7 +3,7 @@ spring:
     active: development
 app:
   name: Personal API Rest
-  version: 0.0.2-SNAPSHOT
+  version: 0.0.3-SNAPSHOT
   description: API REST with Spring Boot to manage my personal data and portfolio projects
   url: https://lgzarturo.com
   email: lgzarturo@gmail.com
