@@ -5,14 +5,12 @@ import com.lgzarturo.api.personal.api.post.Post;
 import com.lgzarturo.api.personal.api.profile.Profile;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(
@@ -28,25 +26,15 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-public class User implements UserDetails {
-    @Id
-    @SequenceGenerator(
-        name = "user_id_seq",
-        sequenceName = "user_id_seq",
-        allocationSize = 1
-    )
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "user_id_seq"
-    )
-    private Long id;
+public class User extends AbstractPersistable<Long> implements UserDetails {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<Role> role;
+    @CollectionTable(name="users_roles", joinColumns=@JoinColumn(name="user_id"))
+    private List<Role> roles;
     private Boolean isActive;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
@@ -63,7 +51,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.role.stream().map(role -> new SimpleGrantedAuthority(role.name())).toList();
+        return this.roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).toList();
     }
 
     @Override

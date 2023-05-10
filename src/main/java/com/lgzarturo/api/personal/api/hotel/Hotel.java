@@ -1,6 +1,5 @@
 package com.lgzarturo.api.personal.api.hotel;
 
-import com.lgzarturo.api.personal.api.address.Address;
 import com.lgzarturo.api.personal.api.reservation.Reservation;
 import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
@@ -22,12 +21,14 @@ public class Hotel extends AbstractAuditable<User, Long> {
     @NotBlank
     @Column(length = 80, nullable = false)
     private String name;
-    @ManyToOne
-    @JoinColumn(name="address_id")
-    private Address address;
     private Integer rating;
     private BigDecimal minimumPrice;
     private BigDecimal maximumPrice;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToOne(mappedBy = "hotel", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private HotelAddress hotelAddress;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
@@ -37,5 +38,10 @@ public class Hotel extends AbstractAuditable<User, Long> {
         if (Objects.isNull(reservations)) reservations = new HashSet<>();
         reservations.add(reservation);
         reservation.setHotel(this);
+    }
+
+    public void addHotelAddress(HotelAddress hotelAddress) {
+        this.hotelAddress = hotelAddress;
+        hotelAddress.setHotel(this);
     }
 }

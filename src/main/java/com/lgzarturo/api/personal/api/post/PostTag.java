@@ -10,21 +10,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity(name="posts_tags")
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"post_id", "tag_id"})
-})
+@IdClass(PostTagKey.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class PostTag extends AbstractPersistable<Long> {
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    @NotNull
+public class PostTag {
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Post post;
-    @ManyToOne
-    @JoinColumn(name = "tag_id")
-    @NotNull
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Tag tag;
     private Integer position;
 }

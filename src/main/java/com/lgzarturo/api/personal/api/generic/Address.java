@@ -1,17 +1,18 @@
-package com.lgzarturo.api.personal.api.address;
+package com.lgzarturo.api.personal.api.generic;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import lombok.*;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(callSuper = true)
-@Entity(name="addresses")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class Address extends AbstractPersistable<Long> {
+@Embeddable
+public class Address {
     @Column(length = 160)
     private String street;
     @Column(length = 40)

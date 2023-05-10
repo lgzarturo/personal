@@ -7,21 +7,17 @@ import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity(name="pages_tags")
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"page_id", "tag_id"})
-})
+@IdClass(PageTagKey.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class PageTag extends AbstractPersistable<Long> {
-    @ManyToOne
-    @JoinColumn(name = "page_id")
-    @NotNull
+public class PageTag {
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Page page;
-    @ManyToOne
-    @JoinColumn(name = "tag_id")
-    @NotNull
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Tag tag;
     private Integer position;
 }

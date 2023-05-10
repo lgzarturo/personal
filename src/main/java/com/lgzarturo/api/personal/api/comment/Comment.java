@@ -33,9 +33,9 @@ public class Comment extends AbstractAuditable<User, Long> {
     @ElementCollection
     @MapKeyColumn(name="name")
     @Column(name="value")
-    @CollectionTable(name="comment_attributes", joinColumns=@JoinColumn(name="comment_id"))
+    @CollectionTable(name="comments_attributes", joinColumns=@JoinColumn(name="comment_id"))
     private Map<String, String> attributes;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id")
     private Post post;
 

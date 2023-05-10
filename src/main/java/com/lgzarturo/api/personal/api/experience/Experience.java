@@ -32,9 +32,9 @@ public class Experience extends AbstractAuditable<User, Long> {
     @ElementCollection
     @MapKeyColumn(name="name")
     @Column(name="value")
-    @CollectionTable(name="experience_attributes", joinColumns=@JoinColumn(name="experience_id"))
+    @CollectionTable(name="experiences_attributes", joinColumns=@JoinColumn(name="experience_id"))
     private Map<String, String> attributes = new HashMap<>();
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="profile_id")
     private Profile profile;
 }

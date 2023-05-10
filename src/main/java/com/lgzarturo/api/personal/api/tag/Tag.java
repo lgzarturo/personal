@@ -2,10 +2,7 @@ package com.lgzarturo.api.personal.api.tag;
 
 import com.lgzarturo.api.personal.api.page.PageTag;
 import com.lgzarturo.api.personal.api.post.PostTag;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -25,10 +22,10 @@ public class Tag extends AbstractPersistable<Long> {
     private String description;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tag", fetch = FetchType.EAGER)
     private Set<PageTag> pages = new HashSet<>();
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tag", fetch = FetchType.EAGER)
     private Set<PostTag> posts = new HashSet<>();
 }

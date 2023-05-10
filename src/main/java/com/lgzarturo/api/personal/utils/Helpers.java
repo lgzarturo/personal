@@ -2,11 +2,12 @@ package com.lgzarturo.api.personal.utils;
 
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
-import com.lgzarturo.api.personal.api.address.Address;
 import com.lgzarturo.api.personal.api.customer.Customer;
 import com.lgzarturo.api.personal.api.flight.Airline;
 import com.lgzarturo.api.personal.api.flight.Flight;
+import com.lgzarturo.api.personal.api.generic.Address;
 import com.lgzarturo.api.personal.api.hotel.Hotel;
+import com.lgzarturo.api.personal.api.hotel.HotelAddress;
 import com.lgzarturo.api.personal.api.reservation.Reservation;
 import com.lgzarturo.api.personal.api.ticket.Ticket;
 import com.lgzarturo.api.personal.api.tour.Tour;
@@ -49,7 +50,7 @@ public class Helpers {
             .email(generateEmail())
             .password(encodedPassword)
             .isActive(true)
-            .role(roles)
+            .roles(roles)
             .build();
     }
 
@@ -58,7 +59,7 @@ public class Helpers {
             .email(email)
             .password(encodedPassword)
             .isActive(true)
-            .role(List.of(Role.ROLE_ADMIN))
+            .roles(List.of(Role.ROLE_ADMIN))
             .build();
     }
 
@@ -117,9 +118,9 @@ public class Helpers {
         return getHotelBuilder().build();
     }
 
-    public static Address getRandomAddress() {
+    public static HotelAddress getRandomAddress() {
         var faker = new Faker();
-        return Address.builder()
+        var address = Address.builder()
             .street(faker.address().streetAddress())
             .city(faker.address().city())
             .state(faker.address().state())
@@ -128,13 +129,14 @@ public class Helpers {
             .latitude(Double.parseDouble(faker.address().latitude()))
             .longitude(Double.parseDouble(faker.address().latitude()))
             .build();
+        return HotelAddress.builder().address(address).build();
     }
 
     public static Tour.TourBuilder getTourBuilder() {
         var faker = new Faker();
         return Tour.builder()
             .name(faker.company().name())
-            .description(faker.lorem().paragraph())
+            .description(faker.lorem().characters(100, 200))
             .price(BigDecimal.valueOf(Double.parseDouble(faker.commerce().price(100.00, 2000.00))));
     }
 
@@ -179,14 +181,14 @@ public class Helpers {
 
     public static Flight.FlightBuilder getFlightBuilder() {
         var faker = new Faker();
-        String destination = airports.get(faker.random().nextInt(airports.size()));
+        String origin = airports.get(faker.random().nextInt(airports.size()));
+        List<String> restOfAirports = airports.stream().filter(airport -> !airport.equals(origin)).toList();
+        String destination = restOfAirports.get(faker.random().nextInt(restOfAirports.size()));
         return Flight.builder()
             .airline(Airline.values()[faker.random().nextInt(Airline.values().length)])
             .flightNumber(faker.code().gtin8())
-            .originName(destination)
-            .destinationName(airports.stream()
-                .filter(airport -> !airport.equals(destination))
-                .toList().get(faker.random().nextInt(airports.size()-1)))
+            .originName(origin)
+            .destinationName(destination)
             .originLatitude(Double.parseDouble(faker.address().latitude()))
             .originLongitude(Double.parseDouble(faker.address().longitude()))
             .destinationLatitude(Double.parseDouble(faker.address().latitude()))

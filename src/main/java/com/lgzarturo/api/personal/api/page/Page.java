@@ -1,5 +1,7 @@
 package com.lgzarturo.api.personal.api.page;
 
+import com.lgzarturo.api.personal.api.content.block.ContentBlock;
+import com.lgzarturo.api.personal.api.content.seo.Seo;
 import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,7 +33,15 @@ public class Page extends AbstractAuditable<User, Long> {
     private Integer position;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(mappedBy = "pages")
+    private Set<Seo> seo_metadata;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "pages")
+    private Set<ContentBlock> blocks;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<PageTag> tags;
     @ManyToOne
     @JoinColumn(name="author_id")

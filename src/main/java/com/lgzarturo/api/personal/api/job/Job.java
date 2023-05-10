@@ -1,6 +1,6 @@
 package com.lgzarturo.api.personal.api.job;
 
-import com.lgzarturo.api.personal.api.candidate.Candidate;
+import com.lgzarturo.api.personal.api.profile.ProfileJob;
 import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,19 +35,13 @@ public class Job extends AbstractAuditable<User, Long> {
     private LocalDate validUntilDate;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Candidate> candidates;
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<ProfileJob> profileJobs;
     @ElementCollection
     @MapKeyColumn(name="name")
     @Column(name="value")
-    @CollectionTable(name="job_attributes", joinColumns=@JoinColumn(name="job_id"))
+    @CollectionTable(name="jobs_attributes", joinColumns=@JoinColumn(name="job_id"))
     private Map<String, String> attributes;
-
-    public void addCandidate(Candidate candidate) {
-        if (Objects.isNull(candidates)) candidates = new HashSet<>();
-        candidates.add(candidate);
-        candidate.setJob(this);
-    }
 
     private void addAttribute(String name, String value) {
         if (Objects.isNull(attributes)) attributes = new HashMap<>();

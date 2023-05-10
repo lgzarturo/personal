@@ -100,6 +100,6 @@ class UserServiceTest {
         // Then
         Optional<User> persistedUser = userService.getUserByEmail(username);
         assertTrue(persistedUser.isPresent());
-        assertEquals(List.of(Role.ROLE_ADMIN), persistedUser.get().getRole());
+        assertEquals(List.of(Role.ROLE_ADMIN), persistedUser.get().getRoles());
     }
 }

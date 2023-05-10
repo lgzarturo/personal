@@ -1,7 +1,5 @@
 package com.lgzarturo.api.personal.api.profile;
 
-import com.lgzarturo.api.personal.api.address.Address;
-import com.lgzarturo.api.personal.api.candidate.Candidate;
 import com.lgzarturo.api.personal.api.experience.Experience;
 import com.lgzarturo.api.personal.api.user.User;
 import jakarta.persistence.*;
@@ -26,9 +24,6 @@ public class Profile extends AbstractAuditable<User, Long> {
     private String profession;
     @Column(length = 240)
     private String resume;
-    @ManyToOne
-    @JoinColumn(name="address_id")
-    private Address address;
     private LocalDate birthDate;
     @Column(length = 40)
     private String birthPlace;
@@ -42,38 +37,38 @@ public class Profile extends AbstractAuditable<User, Long> {
     @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;
     @ElementCollection
-    @CollectionTable(name="profile_phone_numbers", joinColumns=@JoinColumn(name="profile_id"))
+    @CollectionTable(name="profiles_phone_numbers", joinColumns=@JoinColumn(name="profile_id"))
     private Set<String> phoneNumbers;
     @ElementCollection
-    @CollectionTable(name="profile_websites", joinColumns=@JoinColumn(name="profile_id"))
+    @CollectionTable(name="profiles_websites", joinColumns=@JoinColumn(name="profile_id"))
     private Set<String> websites;
     @ElementCollection
-    @CollectionTable(name="profile_emails", joinColumns=@JoinColumn(name="profile_id"))
+    @CollectionTable(name="profiles_emails", joinColumns=@JoinColumn(name="profile_id"))
     private Set<String> emails;
     @ElementCollection
-    @CollectionTable(name="profile_skills", joinColumns=@JoinColumn(name="profile_id"))
+    @CollectionTable(name="profiles_skills", joinColumns=@JoinColumn(name="profile_id"))
     private Set<String> skills;
     @ElementCollection
-    @CollectionTable(name="profile_interests", joinColumns=@JoinColumn(name="profile_id"))
+    @CollectionTable(name="profiles_interests", joinColumns=@JoinColumn(name="profile_id"))
     private Set<String> interests;
     @ElementCollection
     @MapKeyColumn(name="name")
     @Column(name="value")
-    @CollectionTable(name="profile_languages", joinColumns=@JoinColumn(name="profile_id"))
+    @CollectionTable(name="profiles_languages", joinColumns=@JoinColumn(name="profile_id"))
     private Map<Language, Integer> languages;
     @ElementCollection
     @MapKeyColumn(name="name")
     @Column(name="value")
-    @CollectionTable(name="profile_social_networks", joinColumns=@JoinColumn(name="profile_id"))
+    @CollectionTable(name="profiles_social_networks", joinColumns=@JoinColumn(name="profile_id"))
     private Map<SocialNetwork, String> socialNetworks;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private Set<Experience> experiences;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Candidate> candidates;
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ProfileJob> profileJobs;
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
@@ -117,11 +112,5 @@ public class Profile extends AbstractAuditable<User, Long> {
         if (Objects.isNull(experiences)) experiences = new HashSet<>();
         experiences.add(experience);
         experience.setProfile(this);
-    }
-
-    public void addCandidate(Candidate candidate) {
-        if (Objects.isNull(candidates)) candidates = new HashSet<>();
-        candidates.add(candidate);
-        candidate.setProfile(this);
     }
 }

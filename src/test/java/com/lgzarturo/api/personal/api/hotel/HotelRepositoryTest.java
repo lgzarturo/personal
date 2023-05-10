@@ -1,7 +1,5 @@
 package com.lgzarturo.api.personal.api.hotel;
 
-import com.lgzarturo.api.personal.api.address.Address;
-import com.lgzarturo.api.personal.api.address.AddressRepository;
 import com.lgzarturo.api.personal.api.reservation.Reservation;
 import com.lgzarturo.api.personal.api.reservation.ReservationRepository;
 import com.lgzarturo.api.personal.utils.Helpers;
@@ -23,8 +21,6 @@ import java.util.*;
 class HotelRepositoryTest {
 
     @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
     private HotelRepository hotelRepository;
     @Autowired
     private ReservationRepository reservationRepository;
@@ -43,16 +39,15 @@ class HotelRepositoryTest {
             Hotel hotel = Helpers.getRandomHotel();
             BigDecimal savedMinimumPrice = hotel.getMinimumPrice().subtract(BigDecimal.valueOf(0.1));
             BigDecimal savedMaximumPrice = hotel.getMaximumPrice().add(BigDecimal.valueOf(0.1));
-            Address address = Helpers.getRandomAddress();
-            addressRepository.save(address);
-            hotel.setAddress(address);
-            if (!selectedCountries.contains(address.getCountry())) {
-                selectedCountries.add(address.getCountry());
-            }
             minimumPrices.add(savedMinimumPrice);
             maximumPrices.add(savedMaximumPrice);
             priceMap.put(savedMinimumPrice, savedMaximumPrice);
+            HotelAddress hotelAddress = Helpers.getRandomAddress();
+            hotel.addHotelAddress(hotelAddress);
             hotelRepository.save(hotel);
+            if (!selectedCountries.contains(hotelAddress.getAddress().getCountry())) {
+                selectedCountries.add(hotelAddress.getAddress().getCountry());
+            }
             int numberOfReservations = random.nextInt(5) + 1;
             for (int j=0; j<numberOfReservations; j++) {
                 Reservation reservation = Helpers.getRandomReservation(hotel);
@@ -83,16 +78,6 @@ class HotelRepositoryTest {
             // Then
             Assertions.assertTrue(hotels.stream().allMatch(hotel -> hotel.getMinimumPrice().compareTo(minimumPrice) >= 0 && hotel.getMaximumPrice().compareTo(maximumPrice) <= 0));
         });
-    }
-
-    @Test
-    void itShouldFindAllByAddress_Country() {
-        // Given
-        String country = selectedCountries.get(new Random().nextInt(selectedCountries.size()));
-        // When
-        Set<Hotel> hotels = hotelRepository.findAllByAddress_Country(country);
-        // Then
-        Assertions.assertTrue(hotels.stream().allMatch(hotel -> hotel.getAddress().getCountry().equals(country)));
     }
 
     @Test
