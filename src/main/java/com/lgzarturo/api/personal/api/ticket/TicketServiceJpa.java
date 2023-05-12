@@ -21,6 +21,8 @@ import java.time.LocalDateTime;
 @Slf4j
 public class TicketServiceJpa implements TicketService {
 
+    private static final BigDecimal charge_price_percentage = BigDecimal.valueOf(1.25);
+
     private final CustomerRepository customerRepository;
     private final FlightRepository flightRepository;
     private final TicketRepository ticketRepository;
@@ -32,7 +34,7 @@ public class TicketServiceJpa implements TicketService {
         Ticket ticket = Ticket.builder()
             .flight(flight)
             .customer(customer)
-            .price(flight.getPrice().multiply(BigDecimal.valueOf(1.25)))
+            .price(flight.getPrice().multiply(charge_price_percentage))
             .purchaseDate(LocalDateTime.now())
             .arrivalDate(LocalDateTime.now())
             .departureDate(LocalDateTime.now())
@@ -69,5 +71,11 @@ public class TicketServiceJpa implements TicketService {
 
     private Ticket getById(Long id) {
         return ticketRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public BigDecimal findPrice(Long flightId) {
+        Flight flight = flightRepository.findById(flightId).orElseThrow();
+        return flight.getPrice().multiply(charge_price_percentage);
     }
 }

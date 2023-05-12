@@ -8,7 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
+import java.util.Collections;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/tickets")
@@ -38,5 +41,10 @@ public class TicketController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         ticketService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/flight/{id}")
+    public ResponseEntity<Map<String, BigDecimal>> getFlightPrice(@PathVariable Long id) {
+        return ResponseEntity.ok(Collections.singletonMap("flightPrice", ticketService.findPrice(id)));
     }
 }
