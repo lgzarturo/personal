@@ -235,4 +235,16 @@ public class Helpers {
             .customer(customer)
             .build();
     }
+
+    public static LocalDateTime getRandomDateSoon() {
+        var faker = new Faker();
+        int start = faker.random().nextInt(5);
+        return LocalDateTime.now().plusDays(1).plusHours(start);
+    }
+
+    public static LocalDateTime getRandomDateLater() {
+        var faker = new Faker();
+        int start = faker.random().nextInt(12 - 6) + 6;
+        return LocalDateTime.now().plusDays(1).plusHours(start);
+    }
 }

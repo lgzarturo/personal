@@ -7,6 +7,7 @@ import com.lgzarturo.api.personal.api.flight.FlightRepository;
 import com.lgzarturo.api.personal.api.ticket.dto.TicketRequest;
 import com.lgzarturo.api.personal.api.ticket.dto.TicketResponse;
 import com.lgzarturo.api.personal.api.ticket.mapper.TicketMapper;
+import com.lgzarturo.api.personal.utils.Helpers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,10 @@ public class TicketServiceJpa implements TicketService {
         Ticket ticket = Ticket.builder()
             .flight(flight)
             .customer(customer)
-            .price(flight.getPrice().multiply(charge_price_percentage))
+            .price(calculatePrice(flight.getPrice()))
             .purchaseDate(LocalDateTime.now())
-            .arrivalDate(LocalDateTime.now())
-            .departureDate(LocalDateTime.now())
+            .arrivalDate(Helpers.getRandomDateSoon())
+            .departureDate(Helpers.getRandomDateLater())
             .build();
         flight.addTicket(ticket);
         customer.addTicket(ticket);
@@ -56,8 +57,10 @@ public class TicketServiceJpa implements TicketService {
     public TicketResponse update(Long id, TicketRequest request) {
         Ticket ticket = getById(id);
         Flight flight = flightRepository.findById(request.getFlightId()).orElseThrow();
-        ticket.setPrice(flight.getPrice().multiply(BigDecimal.valueOf(1.25)));
+        ticket.setPrice(calculatePrice(flight.getPrice()));
         ticket.setFlight(flight);
+        ticket.setArrivalDate(Helpers.getRandomDateSoon());
+        ticket.setDepartureDate(Helpers.getRandomDateLater());
         ticket.setLastModifiedDate(LocalDateTime.now());
         Ticket savedTicket = ticketRepository.save(ticket);
         return TicketMapper.INSTANCE.mapToResponse(savedTicket);
@@ -76,6 +79,10 @@ public class TicketServiceJpa implements TicketService {
     @Override
     public BigDecimal findPrice(Long flightId) {
         Flight flight = flightRepository.findById(flightId).orElseThrow();
-        return flight.getPrice().multiply(charge_price_percentage);
+        return calculatePrice(flight.getPrice());
+    }
+
+    private BigDecimal calculatePrice(BigDecimal price) {
+        return price.multiply(charge_price_percentage);
     }
 }
