@@ -115,7 +115,13 @@ public class Helpers {
     }
 
     public static Hotel getRandomHotel() {
-        return getHotelBuilder().build();
+        Hotel hotel = getHotelBuilder().build();
+        hotel.addHotelAddress(getRandomAddress());
+        return hotel;
+    }
+
+    public static List<Hotel> getRandomHotels(int count) {
+        return Stream.of(new Hotel[count]).map(hotel -> getRandomHotel()).toList();
     }
 
     public static HotelAddress getRandomAddress() {

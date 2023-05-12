@@ -1,5 +1,6 @@
 package com.lgzarturo.api.personal.api.ticket;
 
+import com.lgzarturo.api.personal.api.generic.CrudController;
 import com.lgzarturo.api.personal.api.ticket.dto.TicketRequest;
 import com.lgzarturo.api.personal.api.ticket.dto.TicketResponse;
 import jakarta.validation.Valid;
@@ -17,10 +18,11 @@ import java.util.Map;
 @RequestMapping("api/v1/tickets")
 @AllArgsConstructor
 @Slf4j
-public class TicketController {
+public class TicketController implements CrudController<TicketResponse, TicketRequest, Long> {
     private final TicketService ticketService;
 
     @PostMapping
+    @Override
     public ResponseEntity<TicketResponse> post(@RequestBody @Valid TicketRequest ticketRequest) {
         TicketResponse ticketResponse = ticketService.create(ticketRequest);
         URI location = URI.create(String.format("/api/v1/tickets/%s", ticketResponse.getId()));
@@ -28,16 +30,19 @@ public class TicketController {
     }
 
     @GetMapping("/{id}")
+    @Override
     public ResponseEntity<TicketResponse> get(@PathVariable Long id) {
         return ResponseEntity.ok(ticketService.read(id));
     }
 
     @PutMapping("/{id}")
+    @Override
     public ResponseEntity<TicketResponse> put(@PathVariable Long id, @RequestBody @Valid TicketRequest ticketRequest) {
         return ResponseEntity.accepted().body(ticketService.update(id, ticketRequest));
     }
 
     @DeleteMapping("/{id}")
+    @Override
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         ticketService.deleteById(id);
         return ResponseEntity.noContent().build();

@@ -17,4 +17,5 @@ public class HotelResponse {
     private Integer rating;
     private BigDecimal minimumPrice;
     private BigDecimal maximumPrice;
+    private HotelAddressResponse address;
 }

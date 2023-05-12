@@ -1,5 +1,6 @@
 package com.lgzarturo.api.personal.api.reservation.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgzarturo.api.personal.api.hotel.dto.HotelResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,8 +17,11 @@ import java.time.LocalDateTime;
 @Builder
 public class ReservationResponse {
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dateReservation;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateCheckIn;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateCheckOut;
     private Integer totalPersons;
     private Integer totalNights;

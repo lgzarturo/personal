@@ -2,6 +2,7 @@ package com.lgzarturo.api.personal.config;
 
 import com.lgzarturo.api.personal.api.customer.CustomerRepository;
 import com.lgzarturo.api.personal.api.flight.FlightRepository;
+import com.lgzarturo.api.personal.api.hotel.HotelRepository;
 import com.lgzarturo.api.personal.api.user.Role;
 import com.lgzarturo.api.personal.api.user.User;
 import com.lgzarturo.api.personal.api.user.UserService;
@@ -24,8 +25,9 @@ public class Bootstrap implements ApplicationRunner {
 
     private final AppConfigProperties appConfigProperties;
     private final CustomerRepository customerRepository;
-    private final FlightRepository flightRepository;
     private final Environment environment;
+    private final FlightRepository flightRepository;
+    private final HotelRepository hotelRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
@@ -33,7 +35,7 @@ public class Bootstrap implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         log.info("Bootstrapping database");
         if (environment.acceptsProfiles(Profiles.of("development"))) {
-            createTestData(customerRepository, flightRepository);
+            createTestData(customerRepository, flightRepository, hotelRepository);
         }
         if (environment.acceptsProfiles(Profiles.of("production"))) {
             createAdministrator(userService, passwordEncoder, appConfigProperties);
@@ -86,12 +88,15 @@ public class Bootstrap implements ApplicationRunner {
 
     private static void createTestData(
         CustomerRepository customerRepository,
-        FlightRepository flightRepository
+        FlightRepository flightRepository,
+        HotelRepository hotelRepository
     ) {
         log.info("Creating test data");
         customerRepository.deleteAll();
         flightRepository.deleteAll();
+        hotelRepository.deleteAll();
         customerRepository.saveAll(Helpers.getRandomCustomers(20));
         flightRepository.saveAll(Helpers.getRandomFlights(60));
+        hotelRepository.saveAll(Helpers.getRandomHotels(10));
     }
 }
