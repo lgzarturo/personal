@@ -30,6 +30,9 @@ public class TicketServiceJpa implements TicketService {
 
     @Override
     public TicketResponse create(TicketRequest request) {
+        if (request.getCustomerId() == null || request.getFlightId() == null) {
+            throw new IllegalArgumentException("Customer and Flight are required");
+        }
         Flight flight = flightRepository.findById(request.getFlightId()).orElseThrow();
         Customer customer = customerRepository.findById(request.getCustomerId()).orElseThrow();
         Ticket ticket = Ticket.builder()
@@ -55,6 +58,9 @@ public class TicketServiceJpa implements TicketService {
 
     @Override
     public TicketResponse update(Long id, TicketRequest request) {
+        if (request.getFlightId() == null) {
+            throw new IllegalArgumentException("Flight are required");
+        }
         Ticket ticket = getById(id);
         Flight flight = flightRepository.findById(request.getFlightId()).orElseThrow();
         ticket.setPrice(calculatePrice(flight.getPrice()));

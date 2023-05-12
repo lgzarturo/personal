@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class TicketRequest {
-    @NotNull
     private Long customerId;
     @NotNull
     private Long flightId;
