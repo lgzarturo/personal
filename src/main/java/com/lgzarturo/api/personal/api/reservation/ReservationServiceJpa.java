@@ -60,11 +60,18 @@ public class ReservationServiceJpa implements ReservationService {
 
     @Override
     public ReservationResponse update(Long id, ReservationRequest request) {
+        Hotel hotel = null;
+        if (request.getHotelId() != null) {
+            hotel = hotelRepository.findById(request.getHotelId()).orElseThrow();
+        }
         Reservation reservation = getById(id);
         reservation.setTotalNights(request.getTotalNights());
         reservation.setTotalPersons(request.getPaxNumber());
+        if (hotel != null) {
+            hotel.addReservation(reservation);
+        }
         reservation.setTotalAmount(getTotalPrice(reservation.getHotel(), request.getTotalNights()));
-        return ReservationResponseMapper.INSTANCE.mapToResponse(reservation);
+        return ReservationResponseMapper.INSTANCE.mapToResponse(reservationRepository.save(reservation));
     }
 
     @Override

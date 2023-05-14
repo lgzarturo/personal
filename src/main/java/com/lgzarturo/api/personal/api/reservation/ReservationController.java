@@ -22,8 +22,7 @@ public class ReservationController implements CrudController<ReservationResponse
     @Override
     public ResponseEntity<ReservationResponse> post(@RequestBody @Valid ReservationRequest request) {
         ReservationResponse reservationResponse = reservationService.create(request);
-        URI location = URI.create(String.format("/api/v1/reservations/%s", reservationResponse.getId()));
-        return ResponseEntity.created(location).body(reservationResponse);
+        return ResponseEntity.created(getLocation(reservationResponse.getId())).body(reservationResponse);
     }
 
     @GetMapping("/{id}")
@@ -35,12 +34,17 @@ public class ReservationController implements CrudController<ReservationResponse
     @PutMapping("/{id}")
     @Override
     public ResponseEntity<ReservationResponse> put(@PathVariable Long id, @RequestBody @Valid ReservationRequest request) {
-        return null;
+        return ResponseEntity.accepted().location(getLocation(id)).body(reservationService.update(id, request));
     }
 
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        return null;
+        reservationService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    private URI getLocation(Long id) {
+        return URI.create(String.format("/api/v1/reservations/%s", id));
     }
 }

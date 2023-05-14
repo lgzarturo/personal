@@ -63,7 +63,7 @@ public class TaskController implements CrudController<TaskResponse, TaskRequest,
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<TaskResponse> updateStatus(@PathVariable Long id, @RequestBody TaskStatusRequest request) {
-        return ResponseEntity.accepted().body(taskService.updateStatus(id, request.getStatus()));
+        return ResponseEntity.accepted().location(getLocation(id)).body(taskService.updateStatus(id, request.getStatus()));
     }
 
     @PatchMapping("/{id}/unfinished")

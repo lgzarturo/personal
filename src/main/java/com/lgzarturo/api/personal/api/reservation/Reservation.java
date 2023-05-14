@@ -27,13 +27,13 @@ public class Reservation extends AbstractAuditable<User, Long> {
     private Integer totalPersons;
     private Integer totalNights;
     private BigDecimal totalAmount;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="hotel_id")
     private Hotel hotel;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="tour_id")
     private Tour tour;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="customer_id")
     private Customer customer;
 }
