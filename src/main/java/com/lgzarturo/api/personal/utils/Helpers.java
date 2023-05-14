@@ -13,11 +13,15 @@ import com.lgzarturo.api.personal.api.ticket.Ticket;
 import com.lgzarturo.api.personal.api.tour.Tour;
 import com.lgzarturo.api.personal.api.user.Role;
 import com.lgzarturo.api.personal.api.user.User;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -252,5 +256,21 @@ public class Helpers {
         var faker = new Faker();
         int start = faker.random().nextInt(12 - 6) + 6;
         return LocalDateTime.now().plusDays(1).plusHours(start);
+    }
+
+    public static void copyNonNullProperties(Object source, Object destination){
+        BeanUtils.copyProperties(source, destination, getNullPropertyNames(source));
+    }
+
+    private static String[] getNullPropertyNames (Object source) {
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+        Set<String> emptyNames = new HashSet<>();
+        for(java.beans.PropertyDescriptor pd : pds) {
+            Object srcValue = src.getPropertyValue(pd.getName());
+            if (srcValue == null) emptyNames.add(pd.getName());
+        }
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray(result);
     }
 }
