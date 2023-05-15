@@ -1,7 +1,7 @@
 # Tickets API Documentation
 # Create Ticket
 POST /api/v1/tickets HTTP/1.1
-Host: localhost:8080
+Host: {{host}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -13,13 +13,13 @@ Authorization: Bearer {{token}}
 ###
 # Get Ticket
 GET /api/v1/tickets/{{ticketId}} HTTP/1.1
-Host: localhost:8080
+Host: {{host}}
 Authorization: Bearer {{token}}
 
 ###
 # Update ticket
 PUT /api/v1/tickets/{{ticketId}} HTTP/1.1
-Host: localhost:8080
+Host: {{host}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -32,5 +32,5 @@ Authorization: Bearer {{token}}
 ###
 # Delete ticket
 DELETE /api/v1/tickets/{{ticketId}} HTTP/1.1
-Host: localhost:8080
+Host: {{host}}
 Authorization: Bearer {{token}}

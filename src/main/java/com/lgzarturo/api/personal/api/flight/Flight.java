@@ -35,6 +35,7 @@ public class Flight extends AbstractAuditable<User, Long> {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Ticket> tickets;
+    private Boolean isActive;
 
     public void addTicket(Ticket ticket) {
         if (Objects.isNull(tickets)) tickets = new HashSet<>();

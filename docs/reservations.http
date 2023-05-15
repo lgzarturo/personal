@@ -1,7 +1,7 @@
 # Reservations API Documentation
 # Create Reservation
 POST /api/v1/reservations HTTP/1.1
-Host: localhost:8080
+Host: {{host}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -15,5 +15,25 @@ Authorization: Bearer {{token}}
 ###
 # Get Reservation
 GET /api/v1/reservations/{{reservationId}} HTTP/1.1
-Host: localhost:8080
+Host: {{host}}
+Authorization: Bearer {{token}}
+
+
+###
+# Update Reservation
+PUT /api/v1/reservations/{{reservationId}} HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "hotelId": 2,
+    "totalNights": 4,
+    "paxNumber": 2
+}
+
+###
+# Delete Reservation
+DELETE /api/v1/reservations/1 HTTP/1.1
+Host: {{host}}
 Authorization: Bearer {{token}}

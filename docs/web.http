@@ -1,18 +1,18 @@
 # Ping API Endpoint
 GET /api/v1/web/ping HTTP/1.1
-Host: localhost:8080
+Host: {{host}}
 
 ###
 # Info API Endpoint
 GET /api/v1/web/info HTTP/1.1
-Host: localhost:8080
+Host: {{host}}
 
 ###
 # Get all posts
 GET /api/v1/web/posts HTTP/1.1
-Host: localhost:8080
+Host: {{host}}
 
 ###
 # Get post by id
 GET /api/v1/web/posts/1 HTTP/1.1
-Host: localhost:8080
+Host: {{host}}

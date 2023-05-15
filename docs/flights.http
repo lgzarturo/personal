@@ -1,0 +1,48 @@
+# Flights API Documentation
+# Create Flight
+POST /api/v1/flights HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "flightNumber": "AOP1862",
+    "originLatitude": -17.81711,
+    "originLongitude": -23.6625,
+    "destinationLatitude": -76.1615,
+    "destinationLongitude": -14.7161,
+    "price": 2000.00,
+    "originName": "CUN",
+    "destinationName": "MEX",
+    "airline": "VIVA_AEROBUS"
+}
+
+###
+# Get Flights
+GET /api/v1/flights?page=2&size=4&sortType=DESC HTTP/1.1
+Host: {{host}}
+Authorization: Bearer {{token}}
+
+###
+# Fliter Flights
+GET /api/v1/flights/filter?filterType=AIRLINE&airline=AEROMEXICO&origin=MEX&destination=CUN&minPrice=2000&maxPrice=10000 HTTP/1.1
+Host: {{host}}
+Authorization: Bearer {{token}}
+
+###
+# Get Flight
+GET /api/v1/flights/{{flightId}} HTTP/1.1
+Host: {{host}}
+Authorization: Bearer {{token}}
+
+###
+# Activate Flight
+PATCH /api/v1/flights/{{flightId}}/active HTTP/1.1
+Host: {{host}}
+Authorization: Bearer {{token}}
+
+###
+# Deactivate Flight
+PATCH /api/v1/flights/{{flightId}}/inactive HTTP/1.1
+Host: {{host}}
+Authorization: Bearer {{token}}
