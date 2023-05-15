@@ -19,7 +19,7 @@ import java.util.Set;
 @RequestMapping("api/v1/flights")
 @AllArgsConstructor
 @Slf4j
-public class FlightController implements CatalogController<FlightResponse, FlightRequest, Long> {
+public class FlightController implements CatalogController<FlightResponse, Long> {
 
     private final FlightService flightService;
 
@@ -64,7 +64,6 @@ public class FlightController implements CatalogController<FlightResponse, Fligh
     }
 
     @PostMapping
-    @Override
     public ResponseEntity<FlightResponse> post(@RequestBody @Valid FlightRequest request) {
         return ResponseEntity.ok(flightService.create(request));
     }

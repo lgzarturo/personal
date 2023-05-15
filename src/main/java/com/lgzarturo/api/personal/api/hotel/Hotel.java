@@ -33,6 +33,7 @@ public class Hotel extends AbstractAuditable<User, Long> {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Reservation> reservations;
+    private Boolean isActive;
 
     public void addReservation(Reservation reservation) {
         if (Objects.isNull(reservations)) reservations = new HashSet<>();

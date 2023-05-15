@@ -4,6 +4,7 @@ import com.lgzarturo.api.personal.api.flight.mapper.FlightMapper;
 import com.lgzarturo.api.personal.api.flight.dto.FlightRequest;
 import com.lgzarturo.api.personal.api.flight.dto.FlightResponse;
 import com.lgzarturo.api.personal.api.generic.SortType;
+import com.lgzarturo.api.personal.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@Transactional
 @Service
 @Slf4j
 public class FlightServiceJpa implements FlightService {
@@ -36,26 +36,30 @@ public class FlightServiceJpa implements FlightService {
 
     @Override
     public FlightResponse get(Long id) {
-        return flightRepository.findById(id)
-                .map(FlightMapper.INSTANCE::mapToResponse)
-                .orElseThrow(() -> new RuntimeException("Flight not found"));
+        return FlightMapper.INSTANCE.mapToResponse(getById(id));
     }
 
+    @Transactional
     public FlightResponse create(FlightRequest request) {
         var flight = FlightMapper.INSTANCE.mapToEntity(request);
         flight.setIsActive(true);
         return FlightMapper.INSTANCE.mapToResponse(flightRepository.save(flight));
     }
 
+    @Transactional
     @Override
     public void active(Long id) {
+        getById(id);
         flightRepository.activate(id);
     }
 
+    @Transactional
     @Override
     public void inactive(Long id) {
+        getById(id);
         flightRepository.deactivate(id);
     }
+
     @Override
     public Set<FlightResponse> getFlightsByOriginAndDestination(String origin, String destination) {
         return flightRepository.selectByOriginNameAndDestinationName(origin, destination).stream()
@@ -82,5 +86,10 @@ public class FlightServiceJpa implements FlightService {
         return flightRepository.selectByAirline(airline).stream()
                 .map(FlightMapper.INSTANCE::mapToResponse)
                 .collect(Collectors.toSet());
+    }
+
+    private Flight getById(Long id) {
+        return flightRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
     }
 }

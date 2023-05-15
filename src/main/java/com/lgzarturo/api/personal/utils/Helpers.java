@@ -115,7 +115,8 @@ public class Helpers {
             .name(faker.company().name())
             .rating(faker.random().nextInt(1, 5))
             .minimumPrice(BigDecimal.valueOf(value))
-            .maximumPrice(BigDecimal.valueOf(value + (value * 0.25)));
+            .maximumPrice(BigDecimal.valueOf(value + (value * 0.25)))
+            .isActive(true);
     }
 
     public static Hotel getRandomHotel() {
@@ -203,7 +204,8 @@ public class Helpers {
             .originLongitude(Double.parseDouble(faker.address().longitude()))
             .destinationLatitude(Double.parseDouble(faker.address().latitude()))
             .destinationLongitude(Double.parseDouble(faker.address().longitude()))
-            .price(BigDecimal.valueOf(Double.parseDouble(faker.commerce().price(1000.00, 30000.00))));
+            .price(BigDecimal.valueOf(Double.parseDouble(faker.commerce().price(1000.00, 30000.00))))
+            .isActive(true);
     }
 
     public static Flight getRandomFlight() {
