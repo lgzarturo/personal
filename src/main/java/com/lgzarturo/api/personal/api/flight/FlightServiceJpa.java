@@ -49,15 +49,17 @@ public class FlightServiceJpa implements FlightService {
     @Transactional
     @Override
     public void active(Long id) {
-        getById(id);
-        flightRepository.activate(id);
+        var flight = getById(id);
+        flight.setIsActive(true);
+        flightRepository.save(flight);
     }
 
     @Transactional
     @Override
     public void inactive(Long id) {
-        getById(id);
-        flightRepository.deactivate(id);
+        var flight = getById(id);
+        flight.setIsActive(false);
+        flightRepository.save(flight);
     }
 
     @Override

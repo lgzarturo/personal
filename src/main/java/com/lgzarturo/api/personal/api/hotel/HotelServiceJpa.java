@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,15 +41,19 @@ public class HotelServiceJpa implements HotelService {
     @Transactional
     @Override
     public void active(Long id) {
-        getById(id);
-        hotelRepository.activate(id);
+        var hotel = getById(id);
+        hotel.setLastModifiedDate(LocalDateTime.now());
+        hotel.setIsActive(true);
+        hotelRepository.save(hotel);
     }
 
     @Transactional
     @Override
     public void inactive(Long id) {
-        getById(id);
-        hotelRepository.deactivate(id);
+        var hotel = getById(id);
+        hotel.setLastModifiedDate(LocalDateTime.now());
+        hotel.setIsActive(false);
+        hotelRepository.save(hotel);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.lgzarturo.api.personal.api.flight.dto.FlightRequest;
 import com.lgzarturo.api.personal.api.flight.dto.FlightResponse;
 import com.lgzarturo.api.personal.api.generic.CatalogController;
 import com.lgzarturo.api.personal.api.generic.SortType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.Set;
 @RequestMapping("api/v1/flights")
 @AllArgsConstructor
 @Slf4j
+@SecurityRequirement(name = "bearerAuth")
 public class FlightController implements CatalogController<FlightResponse, Long> {
 
     private final FlightService flightService;

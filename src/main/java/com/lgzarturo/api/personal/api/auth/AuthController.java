@@ -3,6 +3,7 @@ package com.lgzarturo.api.personal.api.auth;
 import com.lgzarturo.api.personal.api.auth.dto.LoginRequest;
 import com.lgzarturo.api.personal.api.auth.dto.LoginResponse;
 import com.lgzarturo.api.personal.api.user.dto.UserResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +32,7 @@ public class AuthController {
             .body(response);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("me")
     public ResponseEntity<UserResponse> getCurrentUser() {
         return ResponseEntity.ok(authService.getCurrentUser());

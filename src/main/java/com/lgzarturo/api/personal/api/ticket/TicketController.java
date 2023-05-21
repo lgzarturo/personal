@@ -3,6 +3,7 @@ package com.lgzarturo.api.personal.api.ticket;
 import com.lgzarturo.api.personal.api.generic.CrudController;
 import com.lgzarturo.api.personal.api.ticket.dto.TicketRequest;
 import com.lgzarturo.api.personal.api.ticket.dto.TicketResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.Map;
 @RequestMapping("api/v1/tickets")
 @AllArgsConstructor
 @Slf4j
+@SecurityRequirement(name = "bearerAuth")
 public class TicketController implements CrudController<TicketResponse, TicketRequest, Long> {
     private final TicketService ticketService;
 

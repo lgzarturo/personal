@@ -3,6 +3,7 @@ package com.lgzarturo.api.personal.api.reservation;
 import com.lgzarturo.api.personal.api.generic.CrudController;
 import com.lgzarturo.api.personal.api.reservation.dto.ReservationRequest;
 import com.lgzarturo.api.personal.api.reservation.dto.ReservationResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import java.net.URI;
 @RequestMapping("api/v1/reservations")
 @AllArgsConstructor
 @Slf4j
+@SecurityRequirement(name = "bearerAuth")
 public class ReservationController implements CrudController<ReservationResponse, ReservationRequest, Long> {
     private final ReservationService reservationService;
 

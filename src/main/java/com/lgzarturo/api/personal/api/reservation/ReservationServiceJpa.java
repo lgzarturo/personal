@@ -37,6 +37,12 @@ public class ReservationServiceJpa implements ReservationService {
         if (request.getClientId() == null || request.getHotelId() == null) {
             throw new IllegalArgumentException("Client and Hotel are required");
         }
+        if (request.getTotalNights() < 1 || request.getTotalNights() > 60) {
+            throw new IllegalArgumentException("Total nights must be between 1 and 60");
+        }
+        if (request.getPaxNumber() < 1 || request.getPaxNumber() > 100) {
+            throw new IllegalArgumentException("Pax number must be between 1 and 100");
+        }
         Hotel hotel = hotelRepository.findById(request.getHotelId()).orElseThrow();
         Customer customer = customerRepository.findById(request.getClientId()).orElseThrow();
         Reservation reservation = Reservation.builder()

@@ -3,6 +3,7 @@ package com.lgzarturo.api.personal.api.hotel;
 import com.lgzarturo.api.personal.api.generic.CatalogController;
 import com.lgzarturo.api.personal.api.generic.SortType;
 import com.lgzarturo.api.personal.api.hotel.dto.HotelResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import java.util.Set;
 @RequestMapping("api/v1/hotels")
 @AllArgsConstructor
 @Slf4j
+@SecurityRequirement(name = "bearerAuth")
 public class HotelController implements CatalogController<HotelResponse, Long> {
 
     private final HotelService hotelService;

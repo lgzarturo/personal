@@ -23,10 +23,4 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
     Set<Flight> selectByOriginNameAndDestinationName(String originName, String destinationName);
     @Query("SELECT f FROM flights f JOIN FETCH f.tickets t WHERE f.id = :flightId")
     Optional<Flight> selectFlightAndTicketById(Long flightId);
-    @Modifying
-    @Query("UPDATE flights f SET f.isActive = true, f.lastModifiedDate = CURRENT_TIMESTAMP WHERE f.id = :flightId")
-    void activate(Long flightId);
-    @Modifying
-    @Query("UPDATE flights f SET f.isActive = false, f.lastModifiedDate = CURRENT_TIMESTAMP WHERE f.id = :flightId")
-    void deactivate(Long flightId);
 }

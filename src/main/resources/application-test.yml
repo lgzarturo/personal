@@ -3,6 +3,8 @@ debug: false
 logging:
   file:
     name: logs/tests.log
+  level:
+    org.hibernate.orm.jdbc.bind: TRACE
 # Server Configuration
 server:
   mvc:

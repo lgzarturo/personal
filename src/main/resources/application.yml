@@ -1,6 +1,12 @@
 spring:
   profiles:
     active: development
+  data:
+    rest:
+      basePath: /api
+      returnBodyOnCreate: false
+      returnBodyOnUpdate: false
+      detection-strategy: ANNOTATED
 app:
   name: Personal API Rest
   version: 0.0.3-SNAPSHOT

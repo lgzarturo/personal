@@ -31,7 +31,7 @@ public class Hotel extends AbstractAuditable<User, Long> {
     private HotelAddress hotelAddress;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Reservation> reservations;
     private Boolean isActive;
 

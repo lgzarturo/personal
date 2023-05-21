@@ -4,6 +4,7 @@ import com.lgzarturo.api.personal.api.generic.CrudController;
 import com.lgzarturo.api.personal.api.task.dto.TaskRequest;
 import com.lgzarturo.api.personal.api.task.dto.TaskResponse;
 import com.lgzarturo.api.personal.api.task.dto.TaskStatusRequest;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 @RequestMapping("api/v1/tasks")
 @AllArgsConstructor
 @Slf4j
+@SecurityRequirement(name = "bearerAuth")
 public class TaskController implements CrudController<TaskResponse, TaskRequest, Long> {
 
     private final TaskService taskService;
