@@ -42,9 +42,26 @@ public class HotelController implements CatalogController<HotelResponse, Long> {
         @PathVariable Integer rating,
         @RequestParam(required = false) FilterType filterType) {
         if (Objects.isNull(filterType)) filterType = FilterType.NONE;
+        if (Objects.isNull(rating) || rating <= 1) rating = 1;
+        if (rating > 5) rating = 5;
+
+        if (filterType.equals(FilterType.GREATER_THAN_RATING)) {
+            if (rating > 4) rating = 4;
+        }
+
+        int minRating = rating;
+        var maxRating = rating + 1;
+
+        if (filterType.equals(FilterType.BETWEEN_RATING)) {
+            if (minRating > 4) {
+                minRating = 4;
+                maxRating = 5;
+            }
+        }
+
         var response = switch (filterType) {
             case GREATER_THAN_RATING -> hotelService.getHotelsByRatingGreaterThan(rating);
-            case BETWEEN_RATING -> hotelService.getHotelsByRatingBetween(rating, rating + 1);
+            case BETWEEN_RATING -> hotelService.getHotelsByRatingBetween(minRating, maxRating);
             default -> hotelService.getHotelsByRating(rating);
         };
         return response.isEmpty()

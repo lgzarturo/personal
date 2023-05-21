@@ -48,6 +48,29 @@ class HotelServiceTest {
     }
 
     @Test
+    void itShouldGetAllAndSortRatingDesc() {
+        // Given
+        var hotels = hotelService.getAll(0,10, SortType.DESC);
+        // When
+        var sortedHotels = new ArrayList<>(hotels.stream().map(HotelResponse::getRating).sorted().toList());
+        Collections.reverse(sortedHotels);
+        // Then
+        Assertions.assertEquals(10, sortedHotels.size());
+        Assertions.assertEquals(sortedHotels, hotels.stream().map(HotelResponse::getRating).toList());
+    }
+
+    @Test
+    void itShouldGetAllAndSortRatingAsc() {
+        // Given
+        var hotels = hotelService.getAll(0,10, SortType.ASC);
+        // When
+        var sortedHotels = hotels.stream().map(HotelResponse::getRating).sorted().toList();
+        // Then
+        Assertions.assertEquals(10, sortedHotels.size());
+        Assertions.assertEquals(sortedHotels, hotels.stream().map(HotelResponse::getRating).toList());
+    }
+
+    @Test
     void itShouldGet() {
         // Given
         Random random = new Random();

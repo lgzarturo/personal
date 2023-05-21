@@ -21,10 +21,4 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
     @Query("SELECT h FROM hotels h WHERE h.hotelAddress.address.country = :country")
     Set<Hotel> findAllByCountry(String country);
     Optional<Hotel> findByReservationsIn(Set<Reservation> reservations);
-    @Modifying
-    @Query("UPDATE hotels h SET h.isActive = true, h.lastModifiedDate = CURRENT_TIMESTAMP WHERE h.id = :id")
-    void activate(Long id);
-    @Modifying
-    @Query("UPDATE hotels h SET h.isActive = false, h.lastModifiedDate = CURRENT_TIMESTAMP WHERE h.id = :id")
-    void deactivate(Long id);
 }
