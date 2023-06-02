@@ -44,7 +44,6 @@ public class HotelServiceJpa implements HotelService {
         var hotel = getById(id);
         hotel.setLastModifiedDate(LocalDateTime.now());
         hotel.setIsActive(true);
-        hotelRepository.save(hotel);
     }
 
     @Transactional
@@ -53,7 +52,6 @@ public class HotelServiceJpa implements HotelService {
         var hotel = getById(id);
         hotel.setLastModifiedDate(LocalDateTime.now());
         hotel.setIsActive(false);
-        hotelRepository.save(hotel);
     }
 
     @Override

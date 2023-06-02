@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
-@Transactional
 @Service
 @Slf4j
 public class TicketServiceJpa implements TicketService {
@@ -28,6 +27,7 @@ public class TicketServiceJpa implements TicketService {
     private final FlightRepository flightRepository;
     private final TicketRepository ticketRepository;
 
+    @Transactional
     @Override
     public TicketResponse create(TicketRequest request) {
         if (request.getCustomerId() == null) {
@@ -52,10 +52,11 @@ public class TicketServiceJpa implements TicketService {
 
     @Override
     public TicketResponse read(Long id) {
-        Ticket ticket = getById(id);
+        Ticket ticket = ticketRepository.getTicketByIdWithFlightAndCustomer(id).orElseThrow();
         return TicketMapper.INSTANCE.mapToResponse(ticket);
     }
 
+    @Transactional
     @Override
     public TicketResponse update(Long id, TicketRequest request) {
         Ticket ticket = getById(id);
@@ -65,10 +66,10 @@ public class TicketServiceJpa implements TicketService {
         ticket.setArrivalDate(Helpers.getRandomDateSoon());
         ticket.setDepartureDate(Helpers.getRandomDateLater());
         ticket.setLastModifiedDate(LocalDateTime.now());
-        Ticket savedTicket = ticketRepository.save(ticket);
-        return TicketMapper.INSTANCE.mapToResponse(savedTicket);
+        return TicketMapper.INSTANCE.mapToResponse(ticket);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         Ticket ticket = getById(id);

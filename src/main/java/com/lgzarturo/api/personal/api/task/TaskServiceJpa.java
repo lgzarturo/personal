@@ -50,6 +50,7 @@ public class TaskServiceJpa implements TaskService {
                     .map(TaskMapper.INSTANCE::mapToResponse);
     }
 
+    @Transactional
     @Override
     public TaskResponse create(TaskRequest request) {
         var task = TaskMapper.INSTANCE.mapToEntity(request);
@@ -72,7 +73,6 @@ public class TaskServiceJpa implements TaskService {
         var task = getById(id);
         Helpers.copyNonNullProperties(request, task);
         task.setLastModifiedDate(LocalDateTime.now());
-        task = taskRepository.save(task);
         return TaskMapper.INSTANCE.mapToResponse(task);
     }
 
@@ -89,7 +89,6 @@ public class TaskServiceJpa implements TaskService {
         var task = getById(id);
         task.setStatus(status);
         task.setLastModifiedDate(LocalDateTime.now());
-        task = taskRepository.save(task);
         return TaskMapper.INSTANCE.mapToResponse(task);
     }
 
@@ -99,7 +98,6 @@ public class TaskServiceJpa implements TaskService {
         var task = getById(id);
         task.setFinished(false);
         task.setLastModifiedDate(LocalDateTime.now());
-        task = taskRepository.save(task);
         return TaskMapper.INSTANCE.mapToResponse(task);
     }
 
@@ -131,7 +129,6 @@ public class TaskServiceJpa implements TaskService {
         }
         task.setEstimatedAt(estimatedAt);
         task.setLastModifiedDate(LocalDateTime.now());
-        task = taskRepository.save(task);
         return TaskMapper.INSTANCE.mapToResponse(task);
     }
 

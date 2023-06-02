@@ -51,7 +51,6 @@ public class FlightServiceJpa implements FlightService {
     public void active(Long id) {
         var flight = getById(id);
         flight.setIsActive(true);
-        flightRepository.save(flight);
     }
 
     @Transactional
@@ -59,7 +58,6 @@ public class FlightServiceJpa implements FlightService {
     public void inactive(Long id) {
         var flight = getById(id);
         flight.setIsActive(false);
-        flightRepository.save(flight);
     }
 
     @Override
