@@ -1,5 +1,6 @@
 package com.lgzarturo.api.personal.infrastructure.security;
 
+import com.lgzarturo.api.personal.config.AppConfigProperties;
 import com.lgzarturo.api.personal.infrastructure.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,15 +21,17 @@ public class SecurityChainFilter {
     private final AuthenticationProvider authenticationProvider;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AppConfigProperties appConfigProperties;
 
     public SecurityChainFilter(
         AuthenticationProvider authenticationProvider,
         AuthenticationEntryPoint authenticationEntryPoint,
-        JwtAuthenticationFilter jwtAuthenticationFilter
-    ) {
+        JwtAuthenticationFilter jwtAuthenticationFilter,
+        AppConfigProperties appConfigProperties) {
         this.authenticationProvider = authenticationProvider;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.appConfigProperties = appConfigProperties;
     }
 
     @Bean
@@ -49,6 +52,7 @@ public class SecurityChainFilter {
                         "/webjars/**",
                         "/swagger-ui.html"
                     ).permitAll()
+                    .requestMatchers(HttpMethod.GET, appConfigProperties.upload().uri()+"**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/v1/web/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()

@@ -275,4 +275,9 @@ public class Helpers {
         String[] result = new String[emptyNames.size()];
         return emptyNames.toArray(result);
     }
+
+    public static String randomAlphanumeric(int size) {
+        var faker = new Faker();
+        return faker.lorem().characters(size, true, true);
+    }
 }

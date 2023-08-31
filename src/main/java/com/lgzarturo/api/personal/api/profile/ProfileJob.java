@@ -1,6 +1,6 @@
 package com.lgzarturo.api.personal.api.profile;
 
-import com.lgzarturo.api.personal.api.job.Job;
+import com.lgzarturo.api.personal.api.job.JobPublication;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ public class ProfileJob {
     private Profile profile;
     @Id
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Job job;
+    private JobPublication jobPublication;
     @Column(length = 200)
     private String resume;
     @Column(length = 8000, columnDefinition = "TEXT")

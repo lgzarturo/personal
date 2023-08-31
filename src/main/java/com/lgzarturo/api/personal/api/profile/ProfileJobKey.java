@@ -1,6 +1,6 @@
 package com.lgzarturo.api.personal.api.profile;
 
-import com.lgzarturo.api.personal.api.job.Job;
+import com.lgzarturo.api.personal.api.job.JobPublication;
 import lombok.*;
 
 import java.io.Serializable;
@@ -11,5 +11,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ProfileJobKey implements Serializable {
     private Profile profile;
-    private Job job;
+    private JobPublication jobPublication;
 }

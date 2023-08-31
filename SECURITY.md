@@ -2,7 +2,10 @@
 
 ## Supported Versions
 
-- [v0.0.5] - Support Spring Boot 3.1.3
+Use the following table to check the supported versions.
+
+- [v0.0.6]() - Add Job entities, configuration, and services.
+- [v0.0.5](https://github.com/lgzarturo/personal/tree/v0.0.5) - Support Spring Boot 3.1.3
 - [v0.0.4](https://github.com/lgzarturo/personal/tree/v0.0.4-SNAPSHOT) — This version is not published yet.
 - [v0.0.3](https://github.com/lgzarturo/personal/tree/v0.0.3-SNAPSHOT) — Helpers and CRUD operations for Spring Boot REST API.
 - [v0.0.2](https://github.com/lgzarturo/personal/tree/v0.0.2-SNAPSHOT) — Boilerplate Spring Boot REST API.
@@ -10,6 +13,7 @@
 
 | Version         | Supported          |
 |-----------------|--------------------|
+| v0.0.6          | :white_check_mark: |
 | v0.0.5          | :white_check_mark: |
 | v0.0.4-SNAPSHOT | :white_check_mark: |
 | v0.0.3-SNAPSHOT | :white_check_mark: |
