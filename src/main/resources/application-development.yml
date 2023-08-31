@@ -88,6 +88,9 @@ spring:
       max-request-size: 10MB
   codec:
     max-in-memory-size: 10MB
+  h2:
+    console:
+      enabled: false
 # Actuator Configuration
 management:
   endpoint:
