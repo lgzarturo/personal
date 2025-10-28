@@ -1,14 +1,23 @@
 package com.lgzarturo.api.personal.infrastructure.security;
 
+import com.lgzarturo.api.personal.config.AppConfigProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
 @EnableWebMvc
 public class CorsFilter implements WebMvcConfigurer {
+
+    private final AppConfigProperties appConfigProperties;
+
+    public CorsFilter(AppConfigProperties appConfigProperties) {
+        this.appConfigProperties = appConfigProperties;
+    }
 
     @Value("#{'${api.cors.allowed-origins}'.split(',')}")
     private List<String> allowedOrigins;
@@ -30,5 +39,11 @@ public class CorsFilter implements WebMvcConfigurer {
             .exposedHeaders(exposedHeaders.toArray(new String[0]))
             .allowCredentials(allowCredentials);
         WebMvcConfigurer.super.addCorsMappings(registry);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(appConfigProperties.upload().uri()+"**")
+            .addResourceLocations("file:"+appConfigProperties.upload().dir());
     }
 }

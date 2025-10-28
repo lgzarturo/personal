@@ -9,5 +9,6 @@ public record AppConfigProperties(
     String description,
     String url,
     String email,
-    AdminUser admin) {
+    AdminUser admin,
+    Upload upload) {
 }

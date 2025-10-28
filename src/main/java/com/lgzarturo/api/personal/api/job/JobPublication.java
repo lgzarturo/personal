@@ -16,13 +16,13 @@ import java.util.*;
 @AllArgsConstructor
 @Data
 @Builder
-public class Job extends AbstractAuditable<User, Long> {
+public class JobPublication extends AbstractAuditable<User, Long> {
     @Column(length = 160)
     private String title;
     @Column(length = 240)
     private String description;
     private String url;
-    private String image;
+    private String imageUrl;
     @Column(length = 80)
     private String company;
     @Column(length = 80)
@@ -30,18 +30,34 @@ public class Job extends AbstractAuditable<User, Long> {
     private BigDecimal salary;
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
+    private JobStatus status;
+    private Boolean isActive;
+    private Boolean isPromoted;
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
     private JobType type;
     private LocalDate publishedDate;
     private LocalDate validUntilDate;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "jobPublication", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ProfileJob> profileJobs;
     @ElementCollection
     @MapKeyColumn(name="name")
     @Column(name="value")
     @CollectionTable(name="jobs_attributes", joinColumns=@JoinColumn(name="job_id"))
     private Map<String, String> attributes;
+    /*
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    var category: Category? = null
+
+    @OneToOne(mappedBy = "jobPublication")
+    var seo: JobSeo? = null
+
+    @Transient
+    var postulates: List<Postulate> = emptyList()
+     */
 
     private void addAttribute(String name, String value) {
         if (Objects.isNull(attributes)) attributes = new HashMap<>();
